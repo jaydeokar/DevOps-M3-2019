@@ -1,0 +1,82 @@
+---
+- hosts: all
+  vars:
+      admin_user_pass: userPasswordDemo
+      jenkins_plugins: 
+          - token-macro
+          - build-pipeline-plugin
+  tasks:
+  - name: install jre8
+    apt:
+     name: openjdk-8-jre
+     state: present
+     update_cache: yes
+    become: true
+
+  - name: add jenkins repo key
+    apt_key:
+     url: https://pkg.jenkins.io/debian/jenkins.io.key
+     state: present
+    become: true
+
+  - name: add jenkins repo list file into sources.list.d
+    apt_repository:
+     repo: deb http://pkg.jenkins.io/debian-stable binary/
+     state: present
+    become: true
+
+  - name: install jenkins
+    apt:
+     name: jenkins
+     state: present
+     update_cache: yes
+    become: true
+
+  - name: install git
+    apt:
+     name: git
+     state: present
+    become: true
+
+  - name: read admin pwd
+    shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+    register: adminpwd
+    become: true
+
+  - name: unlock and add admin user
+    jenkins_script:
+     script: |
+      import jenkins.model.*
+      import hudson.security.*
+      def instance = Jenkins.getInstance()
+      def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+      hudsonRealm.createAccount('jenkins', '${user_pwd}')
+      instance.setSecurityRealm(hudsonRealm)
+      def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+      strategy.setAllowAnonymousRead(false)
+      instance.setAuthorizationStrategy(strategy)
+      instance.save()
+     args:
+      user_pwd: "{{ admin_user_pass }}"
+     user: admin
+     password: "{{ adminpwd.stdout }}"
+
+  - name: complete setup wizard
+    jenkins_script:
+     script: |
+      import static jenkins.model.Jenkins.instance as jenkins
+      import jenkins.install.InstallState
+      if (!jenkins.installState.isSetupComplete()) {
+        InstallState.INITIAL_SETUP_COMPLETED.initializeState()
+      }
+     user: admin
+     password: "{{ adminpwd.stdout }}"
+
+  - name: install plugin
+    jenkins_plugin:
+     name: "{{ item }}"
+     state: latest
+     url_username: admin
+     url_password: "{{ adminpwd.stdout }}"
+    with_items: "{{ jenkins_plugins }}"
+    become: true
