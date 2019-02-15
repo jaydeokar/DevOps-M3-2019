@@ -80,3 +80,54 @@
      url_password: "{{ adminpwd.stdout }}"
     with_items: "{{ jenkins_plugins }}"
     become: true
+
+  # install mongodb node and nginx
+
+  - name: Install mongodb nginx and node
+    apt:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+          - nginx
+          - nodejs
+          - npm
+          - python-pip
+    become: true
+
+  - name: Install MongoDB
+    apt:
+        deb: https://repo.mongodb.org/apt/ubuntu/dists/trusty/mongodb-org/4.0/multiverse/binary-amd64/mongodb-org-server_4.0.6_amd64.deb
+        state: present
+    become: true
+
+  - name: Install the latest pymongo package
+    pip: name=pymongo state=latest use_mirrors=no
+
+  - name: Make sure MongoDB service is running
+    systemd:
+      state: started
+      name: mongod
+    become: true
+
+  - mongodb_user:
+      database: admin
+      name: admin_mongo_user
+      password: 123456
+      state: present
+
+  - name: Set all environment variables
+    blockinfile: 
+      path: /root/.bashrc 
+      content:  |
+          MONGO_PORT=3002
+          MONGO_IP=127.0.0.1
+          MONGO_USER=admin_mongo_user
+          MONGO_PASSWORD=123456
+          MAIL_USER=csc519s19gworah@gmail.com
+          MAIL_PASSWORD=coldcold
+          MAIL_SMTP=smtp.gmail.com
+          
+  - name: Source the bashrc file
+    shell: source /root/.bashrc
+
