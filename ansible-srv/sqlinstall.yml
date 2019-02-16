@@ -1,0 +1,68 @@
+---
+- hosts: all
+  become: yes
+  remote_user: root
+  vars_prompt:
+    - name: "password"
+      prompt: "please enter the password"
+      private: yes
+  tasks:
+    - name: upgrade and update
+      apt:
+        update: yes
+        update_cache: yes
+        cache_valid_time: 86400
+
+    - name: password given
+      debug:
+        msg: "{{ password}}"
+
+  tasks:
+    - name: Mysql | Set root password
+      become: yes
+      shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password password {{ password }}'
+      args:
+        executable: /bin/bash
+
+    - name: Mysql | Set root password again
+      become: yes
+      shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password {{ password }}' 
+      args:
+        executable: /bin/bash
+
+
+    - name: install mysql server
+      apt:
+           name: "{{ packages }}"
+           state: present
+           update_cache: yes
+      vars:
+           packages:
+              - mysql-server-5.7
+              - python-mysqldb
+              - python3-pymysql
+
+    - name: update mysql root password for all root accounts
+      sudo: yes
+      mysql_user: 
+        name: root
+        host: all 
+        password: "{{ password }}"
+        login_user: root
+        login_password: "{{ password }}"
+        check_implicit_admin: yes
+        priv: "*.*:ALL,GRANT"
+    - name:  print current directory
+      debug: 
+         msg: "{{ ansible_facts.env['PWD'] }}"
+    - name: Ansible template creation
+      template:
+         src: /vagrant/root1.cnf.j2
+         #src: "{{ ansible_facts.env['PWD'] }}/root1.cnf.j2"
+         dest: /root/.my.cnf
+
+#    - name: comment bind address line
+ #     command: sed -i '/127.0.0.1/s/^/#/g' /etc/mysql/mysql.conf.d/mysqld.cnf          
+    - name: command restart
+      command: sudo service mysql restart
+

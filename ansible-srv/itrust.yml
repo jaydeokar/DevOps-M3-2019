@@ -1,0 +1,63 @@
+---
+- hosts: all
+  become: true
+  vars_prompt: 
+    - name: "githubuser" 
+      prompt: "Enter your github username" 
+      private: no 
+    - name: "githubpassword" 
+      prompt: "Enter your github password" 
+      private: yes 
+    - name: "password"
+      prompt: " Enter the mysql root current password  "
+    - name: "emailuser"
+      prompt: "Please enter the  email  username"
+    - name: "emailpwd"
+      prompt: "Please enter the email password"
+
+  tasks:
+#    - name: clean Repo
+ #     file:
+  #      state: absent
+   #     path: /home/vagrant  
+    - name: git clone iTrust
+      git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
+      ignore_errors: yes
+    - name: copy db.properties
+      template:       
+         src: /vagrant/db.properties.template
+         dest: /home/vagrant/iTrust2-v4/iTrust2/src/main/java/db.properties
+#         remote_src: yes
+    - name: copy email.properties
+      template:
+         src: /vagrant/email.properties.template
+         dest: /home/vagrant/iTrust2-v4/iTrust2/src/main/java/email.properties
+ #        remote_src: yes
+    - name: update mysql root password for all root accounts
+      sudo: yes
+      mysql_user:
+        name: root
+        host: all
+        password: ""
+        login_user: root
+        login_password: "{{ password }}"
+        check_implicit_admin: yes
+        priv: "*.*:ALL,GRANT"
+
+
+#    - name: removing mysql passqword
+ #     command: mysqladmin -u root -p password ''
+
+    - name: run pom file
+      command: sudo  mvn -f /home/vagrant/iTrust2-v4/iTrust2/pom-data.xml process-test-classes
+ #   - name: find process and kill
+ #     command: netstat -plten |grep java
+#    - name: run jetty
+ #     command: sudo mvn jetty:run
+    - name: run mvn test
+      command: sudo mvn clean test verify checkstyle:checkstyle
+      args:
+         chdir: /home/vagrant/iTrust2-v4/iTrust2
+      register: test_output
+    - debug: msg="{{test_output.stdout.split('\n')}}"
+       
