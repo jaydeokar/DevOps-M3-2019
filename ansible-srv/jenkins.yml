@@ -41,10 +41,13 @@
   - name: read admin pwd
     become: true
     shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+    retries: 3
+    delay: 5
+    until: adminpwd['stdout'] != ''
     register: adminpwd
     
 
-  - name: unlock and add admin user
+  - name: Unlock and add and admin user called jenkins
     jenkins_script:
      script: |
       import jenkins.model.*
@@ -82,16 +85,32 @@
     with_items: "{{ jenkins_plugins }}"
     become: true
 
+  # - name: Download and unpack NodeJS directly from HTTP source
+  #   unarchive:
+  #     src: "https://nodejs.org/dist/v10.15.1/node-v10.15.1-linux-x64.tar.xz"
+  #     dest: "/usr/lib/"
+
+  # - name: return motd to registered var
+  #   command: curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+  #   register: mymotd
+  #   become: true
+
+  - name: Add nodejs repository to PPA list
+    apt_repository:
+      repo: deb https://deb.nodesource.com/node_11.x xenial main
+      state: present
+    become: true
 
   - name: Install nginx and node
     apt:
       name: "{{ packages }}"
       state: present
+      allow_unauthenticated: yes
     vars:
       packages:
           - nginx
           - nodejs
-          - npm
+          # - npm
           - python-pip
     become: true
 
@@ -128,7 +147,7 @@
   - name: Set all environment variables
     become: true
     blockinfile: 
-      path: /root/.bashrc 
+      path: /etc/environment 
       content: |
           MONGO_PORT=3002
           MONGO_IP=127.0.0.1
@@ -137,16 +156,12 @@
           MAIL_USER=csc519s19gworah@gmail.com
           MAIL_PASSWORD=abcabc
           MAIL_SMTP=smtp.gmail.com
-          
-  - name: Source the bashrc file
-    become: true
-    shell: source /root/.bashrc
-    args:
-     executable: /bin/bash
 
   - name: Checkout from git repo
     git:
-      repo: 'https://github.com/chrisparnin/checkbox.io.git'
+      repo: 'https://github.com/gautamworah96/checkbox.io.git'
       dest: /home/vagrant/checkboxCode
 
-
+  - name: Install packages based on package.json.
+    npm:
+        path: /home/vagrant/checkboxCode/server-side/site
