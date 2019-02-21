@@ -5,6 +5,32 @@
       jenkins_plugins: 
           - token-macro
           - build-pipeline-plugin
+          - git
+          - git-client
+          - scm-api
+          - credentials
+          - workflow-scm-step
+          - matrix-project
+          - structs
+          - workflow-step-api
+          - mailer
+          - ssh-credentials
+          - parameterized-trigger
+          - jquery
+          - workflow-step-api
+          - conditional-buildstep
+          - apache-httpcomponents-client-4-api
+          - jsch
+          - display-url-api
+          - junit 
+          - script-security
+          - workflow-api
+          - maven-plugin
+          - javadoc 
+          - run-condition
+  environment:
+        MY_ENV: whatever_value2   
+
   tasks:
   - name: install jre8
     apt:
@@ -13,6 +39,11 @@
      update_cache: yes
     become: true
 
+
+  - name: Install Jenkins Job builder
+    pip:
+     name: jenkins-job-builder
+ 
   - name: add jenkins repo key
     apt_key:
      url: https://pkg.jenkins.io/debian/jenkins.io.key
@@ -65,6 +96,28 @@
      user: admin
      password: "{{ adminpwd.stdout }}"
 
+  - name: Disable CSRF
+    jenkins_script:
+     script: |
+      import hudson.security.csrf.DefaultCrumbIssuer
+      import jenkins.model.Jenkins
+      if(!Jenkins.instance.isQuietingDown()) {
+      def j = Jenkins.instance
+      if(j.getCrumbIssuer() != null) {
+      j.setCrumbIssuer(null)
+      j.save()
+      println 'CSRF Protection configuration has changed.  Disabled CSRF Protection.'
+      }
+      else {
+      println 'Nothing changed.  CSRF Protection already configured.'
+      }
+      }
+      else {
+      println "Shutdown mode enabled.  Configure CSRF protection SKIPPED."
+      }
+     user: admin
+     password: "{{ adminpwd.stdout }}"
+  
   - name: complete setup wizard
     jenkins_script:
      script: |
@@ -110,9 +163,22 @@
       packages:
           - nginx
           - nodejs
-          # - npm
+          - npm
           - python-pip
     become: true
+
+  - name: Set all environment variables
+    become: true
+    blockinfile: 
+      path: /etc/environment 
+      content: |
+          MONGO_PORT=3002
+          MONGO_IP=127.0.0.1
+          MONGO_USER=admin_mongo_user
+          MONGO_PASSWORD=123456
+          MAIL_USER=csc519s19gworah@gmail.com
+          MAIL_PASSWORD=abcabc
+          MAIL_SMTP=smtp.gmail.com
 
   - name: Install MongoDB
     become: true
@@ -144,19 +210,6 @@
       password: 123456
       state: present
 
-  - name: Set all environment variables
-    become: true
-    blockinfile: 
-      path: /etc/environment 
-      content: |
-          MONGO_PORT=3002
-          MONGO_IP=127.0.0.1
-          MONGO_USER=admin_mongo_user
-          MONGO_PASSWORD=123456
-          MAIL_USER=csc519s19gworah@gmail.com
-          MAIL_PASSWORD=abcabc
-          MAIL_SMTP=smtp.gmail.com
-
   - name: Checkout from git repo
     git:
       repo: 'https://github.com/gautamworah96/checkbox.io.git'
@@ -165,3 +218,14 @@
   - name: Install packages based on package.json.
     npm:
         path: /home/vagrant/checkboxCode/server-side/site
+
+  - name: copy the jobs file to the jobs folder
+    copy:
+      src: jobs/
+      dest: /home/vagrant/jobs/
+      directory_mode: yes
+
+  - name: Update jenkins job
+    command: jenkins-jobs --conf /etc/jenkins_jobs/jenkins_jobs.ini update jobs
+    args:
+      chdir: /home/vagrant            
