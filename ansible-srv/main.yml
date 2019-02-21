@@ -1,0 +1,6 @@
+---
+
+-  import_playbook: sqlinstall.yml
+-  import_playbook: javainstall.yml
+-  import_playbook: mavenins.yml
+-  import_playbook: itrust.yml
