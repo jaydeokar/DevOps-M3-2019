@@ -40,9 +40,9 @@
     become: true
 
 
-  - name: Install Jenkins Job builder
-    pip:
-     name: jenkins-job-builder
+#  - name: Install Jenkins Job builder
+ #   pip:
+  #   name: jenkins-job-builder
  
   - name: add jenkins repo key
     apt_key:
@@ -163,9 +163,12 @@
       packages:
           - nginx
           - nodejs
-          - npm
+#          - npm
           - python-pip
     become: true
+  - name: Install Jenkins Job builder
+    pip:
+     name: jenkins-job-builder
 
   - name: Set all environment variables
     become: true
@@ -219,11 +222,20 @@
     npm:
         path: /home/vagrant/checkboxCode/server-side/site
 
+  - name: checking if folder exists
+    stat: path=/home/vagrant/jobs/checkBox.yml
+    register: st
+  - name: checking if folder exists
+    stat: path=/home/vagrant/jobs/ITrust.yml
+    register: sta
+
   - name: copy the jobs file to the jobs folder
+    become: yes
     copy:
       src: jobs/
       dest: /home/vagrant/jobs/
       directory_mode: yes
+    when: not st.stat.exists and sta.stat.exists
 
   - name: Update jenkins job
     command: jenkins-jobs --conf /etc/jenkins_jobs/jenkins_jobs.ini update jobs
