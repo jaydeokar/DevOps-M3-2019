@@ -28,8 +28,7 @@
           - maven-plugin
           - javadoc 
           - run-condition
-  environment:
-        MY_ENV: whatever_value2   
+ 
 
   tasks:
   - name: install jre8
@@ -38,11 +37,6 @@
      state: present
      update_cache: yes
     become: true
-
-
-#  - name: Install Jenkins Job builder
- #   pip:
-  #   name: jenkins-job-builder
  
   - name: add jenkins repo key
     apt_key:
@@ -73,7 +67,7 @@
     become: true
     shell: cat /var/lib/jenkins/secrets/initialAdminPassword
     retries: 3
-    delay: 5
+    delay: 10
     until: adminpwd['stdout'] != ''
     register: adminpwd
     
@@ -95,6 +89,8 @@
       user_pwd: "{{ admin_user_pass }}"
      user: admin
      password: "{{ adminpwd.stdout }}"
+    retries: 3
+    delay: 10
 
   - name: Disable CSRF
     jenkins_script:
@@ -138,16 +134,6 @@
     with_items: "{{ jenkins_plugins }}"
     become: true
 
-  # - name: Download and unpack NodeJS directly from HTTP source
-  #   unarchive:
-  #     src: "https://nodejs.org/dist/v10.15.1/node-v10.15.1-linux-x64.tar.xz"
-  #     dest: "/usr/lib/"
-
-  # - name: return motd to registered var
-  #   command: curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
-  #   register: mymotd
-  #   become: true
-
   - name: Add nodejs repository to PPA list
     apt_repository:
       repo: deb https://deb.nodesource.com/node_11.x xenial main
@@ -166,6 +152,7 @@
 #          - npm
           - python-pip
     become: true
+
   - name: Install Jenkins Job builder
     pip:
      name: jenkins-job-builder
@@ -192,6 +179,10 @@
   - name: Install the latest pymongo package
     pip: name=pymongo state=latest use_mirrors=no
 
+  - name: Install Jenkins Job builder
+    pip:
+      name: jenkins-job-builder
+
   - name: Copy service file to web-srv
     become: true
     template:
@@ -216,15 +207,16 @@
   - name: Checkout from git repo
     git:
       repo: 'https://github.com/gautamworah96/checkbox.io.git'
-      dest: /home/vagrant/checkboxCode
+      dest: /home/vagrant/checkBoxCode
 
   - name: Install packages based on package.json.
     npm:
-        path: /home/vagrant/checkboxCode/server-side/site
+        path: /home/vagrant/checkBoxCode/server-side/site
 
   - name: checking if folder exists
     stat: path=/home/vagrant/jobs/checkBox.yml
     register: st
+
   - name: checking if folder exists
     stat: path=/home/vagrant/jobs/ITrust.yml
     register: sta
@@ -235,9 +227,8 @@
       src: jobs/
       dest: /home/vagrant/jobs/
       directory_mode: yes
-    when: not st.stat.exists and sta.stat.exists
 
   - name: Update jenkins job
-    command: jenkins-jobs --conf /etc/jenkins_jobs/jenkins_jobs.ini update jobs
+    command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{admin_user_pass}}" update jobs/
     args:
-      chdir: /home/vagrant            
+      chdir: /home/vagrant           
