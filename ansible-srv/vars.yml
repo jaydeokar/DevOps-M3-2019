@@ -1,0 +1,10 @@
+---
+MONGO_PASSWORD: "123456"
+MAIL_USER: "csc519s19gworah@gmail.com"
+MAIL_PASSWORD: "abcabc"
+APP_PORT: 3002
+MONGO_IP: 127.0.0.1
+MONGO_USER: "admin_mongo_user"
+MAIL_SMTP: "smtp.gmail.com"
+REPO: "https://github.com/gautamworah96/checkbox.io.git"
+

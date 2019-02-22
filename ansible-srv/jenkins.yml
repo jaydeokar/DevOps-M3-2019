@@ -82,7 +82,7 @@
 
   - name: Wait for jenkins to come up
     uri:
-       url: "http://192.168.33.100:8080/login?from=%2F"
+       url: "http:/{{URL}}login?from=%2F"
        status_code: 200
     register: result
     until: result.status == 200
@@ -181,13 +181,13 @@
     blockinfile: 
       path: /etc/environment 
       content: |
-          APP_PORT=3002
-          MONGO_IP=127.0.0.1
-          MONGO_USER=admin_mongo_user
-          MONGO_PASSWORD=123456
-          MAIL_USER=csc519s19gworah@gmail.com
-          MAIL_PASSWORD=abcabc
-          MAIL_SMTP=smtp.gmail.com
+  #        APP_PORT=3002
+   #       MONGO_IP=127.0.0.1
+    #      MONGO_USER=admin_mongo_user
+     #     MONGO_PASSWORD=123456
+      #    MAIL_USER=csc519s19gworah@gmail.com
+       #   MAIL_PASSWORD=abcabc
+        #  MAIL_SMTP=smtp.gmail.com
 
   - name: Install MongoDB
     become: true
@@ -221,12 +221,12 @@
     mongodb_user:
       database: admin
       name: admin_mongo_user
-      password: 123456
+      password: "{{ MONGO_PASSWORD }}"
       state: present
 
   - name: Checkout from git repo
     git:
-      repo: 'https://github.com/gautamworah96/checkbox.io.git'
+      repo: '{{ REPO }}'
       dest: /home/vagrant/checkBoxCode
 
   - name: Install packages based on package.json.
@@ -267,7 +267,7 @@
 
   - name: Wait for jenkins to come up
     uri:
-       url: "http://192.168.33.100:8081/login?from=%2F"
+       url: "http:/{{CURL}}login?from=%2F"
        status_code: 200
     register: result
     until: result.status == 200
