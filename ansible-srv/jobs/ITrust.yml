@@ -1,0 +1,13 @@
+- job:
+    name: iTrust Build
+    description: 'My Itrust App'
+    project-type: freestyle
+    block-downstream: false
+    scm:
+    - git:
+        skip-tag: false
+        url: https://github.com/chrisparnin/checkbox.io.git
+    auth-token: abcdefghi
+    builders:
+      - shell: |
+            

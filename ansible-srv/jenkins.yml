@@ -28,8 +28,11 @@
           - maven-plugin
           - javadoc 
           - run-condition
- 
-
+          - credentials
+          - structs
+          - bouncycastle-api
+          - script-security
+          
   tasks:
   - name: install jre8
     apt:
@@ -72,10 +75,19 @@
   - name: Read admin pwd
     become: true
     shell: cat /var/lib/jenkins/secrets/initialAdminPassword
-    retries: 3
+    retries: 5
     delay: 10
     until: adminpwd['stdout'] != ''
     register: adminpwd
+
+  - name: Wait for jenkins to come up
+    uri:
+       url: "http://192.168.33.100:8080/login?from=%2F"
+       status_code: 200
+    register: result
+    until: result.status == 200
+    retries: 20
+    delay: 5           
     
   - name: Unlock and add and admin user called jenkins
     jenkins_script:
@@ -157,7 +169,6 @@
       packages:
           - nginx
           - nodejs
-#          - npm
           - python-pip
     become: true
 
@@ -235,8 +246,30 @@
     copy:
       src: jobs/
       dest: /home/vagrant/jobs/
-
+  
   - name: Update jenkins job
     command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{admin_user_pass}}" update jobs/
     args:
-      chdir: /home/vagrant           
+      chdir: /home/vagrant
+
+  - name: change port
+    become: true
+    lineinfile:
+      path: /etc/default/jenkins
+      regexp: '^HTTP_PORT='
+      line: 'HTTP_PORT=8081'
+
+  - name: restart jenkins service, in all cases
+    become: yes
+    systemd:
+      name: jenkins
+      state: restarted 
+
+  - name: Wait for jenkins to come up
+    uri:
+       url: "http://192.168.33.100:8081/login?from=%2F"
+       status_code: 200
+    register: result
+    until: result.status == 200
+    retries: 20
+    delay: 5      
