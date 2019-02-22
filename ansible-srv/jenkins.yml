@@ -57,13 +57,19 @@
      update_cache: yes
     become: true
 
+  - name: Make sure Jenkins service is running
+    systemd:
+      state: started
+      name: jenkins
+    become: true
+
   - name: install git
     apt:
      name: git
      state: present
     become: true
 
-  - name: read admin pwd
+  - name: Read admin pwd
     become: true
     shell: cat /var/lib/jenkins/secrets/initialAdminPassword
     retries: 3
@@ -71,7 +77,6 @@
     until: adminpwd['stdout'] != ''
     register: adminpwd
     
-
   - name: Unlock and add and admin user called jenkins
     jenkins_script:
      script: |
@@ -89,8 +94,11 @@
       user_pwd: "{{ admin_user_pass }}"
      user: admin
      password: "{{ adminpwd.stdout }}"
-    retries: 3
-    delay: 10
+    retries: 10
+    delay: 100
+
+    # until: jenkinsUserCreation['stdout'] != ''
+    # register: jenkinsUserCreation
 
   - name: Disable CSRF
     jenkins_script:
@@ -162,7 +170,7 @@
     blockinfile: 
       path: /etc/environment 
       content: |
-          MONGO_PORT=3002
+          APP_PORT=3002
           MONGO_IP=127.0.0.1
           MONGO_USER=admin_mongo_user
           MONGO_PASSWORD=123456
@@ -198,7 +206,8 @@
       name: mongod
     become: true
 
-  - mongodb_user:
+  - name: Create MongoDB Admin user
+    mongodb_user:
       database: admin
       name: admin_mongo_user
       password: 123456
@@ -226,7 +235,6 @@
     copy:
       src: jobs/
       dest: /home/vagrant/jobs/
-      directory_mode: yes
 
   - name: Update jenkins job
     command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{admin_user_pass}}" update jobs/
