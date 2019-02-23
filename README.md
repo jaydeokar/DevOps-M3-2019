@@ -13,7 +13,7 @@ The following playbooks perform the mentioned functionalities.
     javainstall.yml --> Installs Oracle Java 8
     mavenins.yml    --> Installs maven 
     itrust.yml      --> Clones iTrust from git repo, establishes the application and Database connection, runs maven tests for iTrust
-    main.yml        --> Parent playbook which runs the isntallation and configuration playbooks
+    main.yml        --> Parent playbook which runs the installation and configuration playbooks
 Tasks done:
 
 Using jenkins-job-builder and ansible, a jenkins pipeline has been built for two applications:
