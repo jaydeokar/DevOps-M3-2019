@@ -33,6 +33,10 @@ where inventory contains the details of the web server host to be configured.
 
 Learning Outcome
 
-    Avoid 
+    Avoid bind exeception by killing the process with port conflict /ERROR:Address already in use
+    Setting up Jenkins jobs using job builder and ansible.
+    Cleaning up Jenkins workspaces before and after a jenkins build
+    Integration of iTrust with mysql server
+    
 
 
