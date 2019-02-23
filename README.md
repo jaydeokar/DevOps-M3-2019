@@ -1,7 +1,7 @@
 # DevOps-Milestone1
 
 
-**Team Members ------ **
+**Team Members ------**
 
 Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Kumar K P (skrish26)
 
