@@ -1,6 +1,7 @@
 # DevOps-Milestone1
 
-**Team Members:**
+
+**Team Members ------ **
 
 Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Kumar K P (skrish26)
 
@@ -25,13 +26,15 @@ iTrust Build Job  --> **mvn -f pom-data.xml process-test-classes** builds the da
                       
 checkboxbuild Job --> **npm test** starts the NodeJS server, tests the GET API at localhost:3002/api/study/listing , shuts down the server using pm2.                    
 
-**To run the playbook**
+**To run the playbook ------**
 
 Run the following command from an ansible server
-        ansible-playbook -i inventory main.yml
+
+```ansible-playbook -i inventory main.yml```
+
 where inventory contains the details of the web server host to be configured.
 
-Learning Outcome
+**Learning Outcome ------**
     
 **iTrust build:**
 
