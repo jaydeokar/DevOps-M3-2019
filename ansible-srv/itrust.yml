@@ -20,13 +20,13 @@
  #     file:
   #      state: absent
    #     path: /home/vagrant  
-  #  - name: git clone iTrust
-   #   git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
-    #  ignore_errors: yes
-    
     - name: git clone iTrust
-      git: repo=https://github.ncsu.edu/gworah/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
+      git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
       ignore_errors: yes
+    
+    #- name: git clone iTrust
+     # git: repo=https://github.ncsu.edu/gworah/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
+      #ignore_errors: yes
 
 
 
