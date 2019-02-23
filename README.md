@@ -23,7 +23,7 @@ Using jenkins-job-builder and ansible, a jenkins pipeline has been built for two
 
 iTrust Build Job  --> **mvn -f pom-data.xml process-test-classes** builds the database and creates sample data and  **mvn clean test verify checkstyle:checkstyle** runs the unit tests, launches the server, runs the integration tests
                       
-checkboxbuild Job -->                     
+checkboxbuild Job --> **npm test** starts the NodeJS server, tests the GET API at localhost:3002/api/study/listing , shuts down the server using pm2.                    
 
 **To run the playbook**
 
@@ -33,18 +33,21 @@ where inventory contains the details of the web server host to be configured.
 
 Learning Outcome
     
-    iTrust build:
+**iTrust build:**
+
+Avoid bind exeception by killing the process with port conflict /ERROR:Address already in use
+Setting up Jenkins jobs using job builder and ansible.
+Cleaning up Jenkins workspaces before and after a jenkins build
+Integration of iTrust with mysql server
+
+**Checkbox.io build:**
+
+Setting up the Jenkins server with automated login, credentials etc
+Setting up the checkbox.io app to start, stop automatically as part of a test using pm2
+Modifying environment variables so that they are available immediately
     
-    Avoid bind exeception by killing the process with port conflict /ERROR:Address already in use
-    Setting up Jenkins jobs using job builder and ansible.
-    Cleaning up Jenkins workspaces before and after a jenkins build
-    Integration of iTrust with mysql server
-    
-    Checkbox.io build:
-    
-    Setting up the Jenkins server with automated login, credentials etc
-    Setting up the checkbox.io app to start, stop automatically as part of a test using pm2
-    Modifying environment variables so that they are available immediately
+ Screencast link for DevOps Milestone 1:
+ [Milestone-1 Screencast](https://drive.google.com/file/d/1YAakDM-N1AfKEkKyH2UHsnNfi29OXASh/view?usp=sharing)
     
     
     
