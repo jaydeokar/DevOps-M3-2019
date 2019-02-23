@@ -32,11 +32,26 @@ Run the following command from an ansible server
 where inventory contains the details of the web server host to be configured.
 
 Learning Outcome
-
+    
+    iTrust build:
+    
     Avoid bind exeception by killing the process with port conflict /ERROR:Address already in use
     Setting up Jenkins jobs using job builder and ansible.
     Cleaning up Jenkins workspaces before and after a jenkins build
     Integration of iTrust with mysql server
+    
+    Checkbox.io build:
+    
+    Setting up the Jenkins server with automated login, credentials etc
+    Setting up the checkbox.io app to start, stop automatically as part of a test using pm2
+    Modifying environment variables so that they are available immediately
+    
+    
+    
+    
+    
+    
+    
     
 
 
