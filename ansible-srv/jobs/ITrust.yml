@@ -6,7 +6,7 @@
     scm:
     - git:
         skip-tag: false
-        url: https://github.com/gautamworah96/iTrust 
+        url: /home/vagrant/iTrust2-v4/ 
     auth-token: abcdefghi
     builders:
       - shell: |

@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  vars_files: vars.yml
   become: true
   vars_prompt: 
     - name: "githubuser" 
@@ -20,13 +21,13 @@
  #     file:
   #      state: absent
    #     path: /home/vagrant  
-    - name: git clone iTrust
-      git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
-      ignore_errors: yes
+   # - name: git clone iTrust
+    #  git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
+     # ignore_errors: yes
     
-    #- name: git clone iTrust
-     # git: repo=https://github.ncsu.edu/gworah/iTrust2-v4 dest=/home/vagrant/iTrust2-v4
-      #ignore_errors: yes
+    - name: git clone iTrust
+      git: repo=https://github.com/gautamworah96/iTrust
+      ignore_errors: yes
 
 
 
@@ -55,16 +56,35 @@
 #    - name: removing mysql passqword
  #     command: mysqladmin -u root -p password ''
 
-    - name: run pom file
-      command: sudo  mvn -f /home/vagrant/iTrust2-v4/iTrust2/pom-data.xml process-test-classes
+ #   - name: run pom file
+  #    command: sudo  mvn -f /home/vagrant/iTrust2-v4/iTrust2/pom-data.xml process-test-classes
  #   - name: find process and kill
  #     command: netstat -plten |grep java
 #    - name: run jetty
  #     command: sudo mvn jetty:run
-    - name: run mvn test
-      command: sudo mvn clean test verify checkstyle:checkstyle
-      args:
-         chdir: /home/vagrant/iTrust2-v4/iTrust2
-      register: test_output
-    - debug: msg="{{test_output.stdout.split('\n')}}"
+#    - name: run mvn test
+ #     command: sudo mvn clean test verify checkstyle:checkstyle
+  #    args:
+   #      chdir: /home/vagrant/iTrust2-v4/iTrust2
+    #  register: test_output
+   # - debug: msg="{{test_output.stdout.split('\n')}}"
        
+
+    - name: Add remote url for itrust
+      template:
+        src: config-itrust
+        remote_src: no
+        dest: /home/vagrant/iTrust2-v4/.git/config
+        owner: vagrant
+        group: vagrant
+        mode: 0664
+ 
+    - name: copy the post-receive hook remote repository itrust
+      become: yes
+      template:
+        src: post-receive-iTrust
+        dest: /home/vagrant/deploy/jenkins-itrust.git/hooks/post-receive
+#        remote_src: yes
+        owner: root
+        group: root
+        mode: 0777

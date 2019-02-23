@@ -1,2 +1,0 @@
-#!/bin/bash
-curl --user jenkins:userPasswordDemo -s http://192.168.33.100:8081/job/checkBox%20Build/build?token=abcdefghi

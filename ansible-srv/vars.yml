@@ -1,4 +1,5 @@
 ---
+admin_user_pass: "userPasswordDemo"
 MONGO_PASSWORD: "123456"
 MAIL_USER: "csc519s19gworah@gmail.com"
 MAIL_PASSWORD: "abcabc"

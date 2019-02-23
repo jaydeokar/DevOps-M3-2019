@@ -1,7 +1,6 @@
 ---
 - hosts: all
-  vars_files: 
-     - vars.yml
+  vars_files:  vars.yml
   vars:
       admin_user_pass: userPasswordDemo
       jenkins_plugins: 
@@ -36,6 +35,13 @@
           - script-security
           
   tasks:
+  - name: install jre8
+    apt:
+     name: openjdk-8-jre
+     state: present
+     update_cache: yes
+    become: true  
+
  
   - name: add jenkins repo key
     apt_key:
@@ -76,14 +82,24 @@
     until: adminpwd['stdout'] != ''
     register: adminpwd
 
+  #- name: Wait for jenkins to come up
+   # pause: 
+    #   minutes: 2
+  - name: change port
+    become: true
+    lineinfile:
+      path: /etc/default/jenkins
+      regexp: '^HTTP_PORT='
+      line: 'HTTP_PORT=8080'
+  - name: restart jenkins service, in all cases
+    become: yes
+    systemd:
+      name: jenkins
+      state: restarted
+
   - name: Wait for jenkins to come up
-    uri:
-       url: "http:/{{URL}}login?from=%2F"
-       status_code: 200
-    register: result
-    until: result.status == 200
-    retries: 20
-    delay: 5           
+    pause:
+       minutes: 2
     
   - name: Unlock and add and admin user called jenkins
     jenkins_script:
@@ -172,7 +188,7 @@
     pip:
      name: jenkins-job-builder
 
-   - name: Set all environment variables
+  - name: Set all environment variables
     become: true
     blockinfile: 
       path: /etc/environment 
@@ -197,7 +213,7 @@
   - name: Copy service file to web-srv
     become: true
     template:
-      src: template/mongod.service
+      src: mongod.service
       dest: /lib/systemd/system/mongod.service 
       owner: root
       group: root
@@ -293,37 +309,37 @@
 
   - name: Add remote url for checkbox
     template:
-      src: template/config-checkbox
+      src: config-checkbox
       remote_src: no
       dest: /home/vagrant/checkBoxCode/.git/config
       owner: vagrant
       group: vagrant
       mode: 0664
 
-  - name: Add remote url for itrust
-    template:
-      src: template/config-itrust
-      remote_src: no
-      dest: /home/vagrant/iTrust2-v4/iTrust2/.git/config
-      owner: vagrant
-      group: vagrant
-      mode: 0664   
+#  - name: Add remote url for itrust
+ #   template:
+  #    src: template/config-itrust
+   #   remote_src: no
+    #  dest: /home/vagrant/iTrust2-v4/iTrust2/.git/config
+     # owner: vagrant
+      #group: vagrant
+     # mode: 0664   
           
   - name: copy the post-receive hook remote repository checkBoxCode
     become: yes
     template:
-      src: template/post-receive-checkbox
+      src: post-receive-checkbox
       dest: /home/vagrant/deploy/jenkins-checkbox.git/hooks/post-receive
       owner: root
       group: root
       mode: 0777
 
-  - name: copy the post-receive hook remote repository itrust
-    become: yes
-    template:
-      src: template/post-receive-itrust
-      dest: /home/vagrant/deploy/jenkins-itrust.git/hooks/post-receive
-      owner: root
-      group: root
-      mode: 0777
+#  - name: copy the post-receive hook remote repository itrust
+ #   become: yes
+  #  template:
+   #   src: template/post-receive-itrust
+    #  dest: /home/vagrant/deploy/jenkins-itrust.git/hooks/post-receive
+     # owner: root
+    #  group: root
+     # mode: 0777
    
