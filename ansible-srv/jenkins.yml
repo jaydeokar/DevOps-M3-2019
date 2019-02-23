@@ -34,242 +34,302 @@
           - script-security
           
   tasks:
-  - name: install jre8
-    apt:
-     name: openjdk-8-jre
-     state: present
-     update_cache: yes
-    become: true
+  # - name: install jre8
+  #   apt:
+  #    name: openjdk-8-jre
+  #    state: present
+  #    update_cache: yes
+  #   become: true
  
-  - name: add jenkins repo key
-    apt_key:
-     url: https://pkg.jenkins.io/debian/jenkins.io.key
-     state: present
-    become: true
+  # - name: add jenkins repo key
+  #   apt_key:
+  #    url: https://pkg.jenkins.io/debian/jenkins.io.key
+  #    state: present
+  #   become: true
 
-  - name: add jenkins repo list file into sources.list.d
-    apt_repository:
-     repo: deb http://pkg.jenkins.io/debian-stable binary/
-     state: present
-    become: true
+  # - name: add jenkins repo list file into sources.list.d
+  #   apt_repository:
+  #    repo: deb http://pkg.jenkins.io/debian-stable binary/
+  #    state: present
+  #   become: true
 
-  - name: install jenkins
-    apt:
-     name: jenkins
-     state: present
-     update_cache: yes
-    become: true
+  # - name: install jenkins
+  #   apt:
+  #    name: jenkins
+  #    state: present
+  #    update_cache: yes
+  #   become: true
 
-  - name: Make sure Jenkins service is running
-    systemd:
-      state: started
-      name: jenkins
-    become: true
+  # - name: Make sure Jenkins service is running
+  #   systemd:
+  #     state: started
+  #     name: jenkins
+  #   become: true
 
-  - name: install git
-    apt:
-     name: git
-     state: present
-    become: true
+  # - name: install git
+  #   apt:
+  #    name: git
+  #    state: present
+  #   become: true
 
-  - name: Read admin pwd
-    become: true
-    shell: cat /var/lib/jenkins/secrets/initialAdminPassword
-    retries: 5
-    delay: 10
-    until: adminpwd['stdout'] != ''
-    register: adminpwd
+  # - name: Read admin pwd
+  #   become: true
+  #   shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  #   retries: 5
+  #   delay: 10
+  #   until: adminpwd['stdout'] != ''
+  #   register: adminpwd
 
-  - name: Wait for jenkins to come up
-    uri:
-       url: "http://192.168.33.100:8080/login?from=%2F"
-       status_code: 200
-    register: result
-    until: result.status == 200
-    retries: 20
-    delay: 5           
+  # - name: Wait for jenkins to come up
+  #   uri:
+  #      url: "http://192.168.33.100:8080/login?from=%2F"
+  #      status_code: 200
+  #   register: result
+  #   until: result.status == 200
+  #   retries: 20
+  #   delay: 5           
     
-  - name: Unlock and add and admin user called jenkins
-    jenkins_script:
-     script: |
-      import jenkins.model.*
-      import hudson.security.*
-      def instance = Jenkins.getInstance()
-      def hudsonRealm = new HudsonPrivateSecurityRealm(false)
-      hudsonRealm.createAccount('jenkins', '${user_pwd}')
-      instance.setSecurityRealm(hudsonRealm)
-      def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
-      strategy.setAllowAnonymousRead(false)
-      instance.setAuthorizationStrategy(strategy)
-      instance.save()
-     args:
-      user_pwd: "{{ admin_user_pass }}"
-     user: admin
-     password: "{{ adminpwd.stdout }}"
-    retries: 10
-    delay: 100
+  # - name: Unlock and add and admin user called jenkins
+  #   jenkins_script:
+  #    script: |
+  #     import jenkins.model.*
+  #     import hudson.security.*
+  #     def instance = Jenkins.getInstance()
+  #     def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+  #     hudsonRealm.createAccount('jenkins', '${user_pwd}')
+  #     instance.setSecurityRealm(hudsonRealm)
+  #     def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+  #     strategy.setAllowAnonymousRead(false)
+  #     instance.setAuthorizationStrategy(strategy)
+  #     instance.save()
+  #    args:
+  #     user_pwd: "{{ admin_user_pass }}"
+  #    user: admin
+  #    password: "{{ adminpwd.stdout }}"
+  #   retries: 10
+  #   delay: 100
 
-    # until: jenkinsUserCreation['stdout'] != ''
-    # register: jenkinsUserCreation
+  #   # until: jenkinsUserCreation['stdout'] != ''
+  #   # register: jenkinsUserCreation
 
-  - name: Disable CSRF
-    jenkins_script:
-     script: |
-      import hudson.security.csrf.DefaultCrumbIssuer
-      import jenkins.model.Jenkins
-      if(!Jenkins.instance.isQuietingDown()) {
-      def j = Jenkins.instance
-      if(j.getCrumbIssuer() != null) {
-      j.setCrumbIssuer(null)
-      j.save()
-      println 'CSRF Protection configuration has changed.  Disabled CSRF Protection.'
-      }
-      else {
-      println 'Nothing changed.  CSRF Protection already configured.'
-      }
-      }
-      else {
-      println "Shutdown mode enabled.  Configure CSRF protection SKIPPED."
-      }
-     user: admin
-     password: "{{ adminpwd.stdout }}"
+  # - name: Disable CSRF
+  #   jenkins_script:
+  #    script: |
+  #     import hudson.security.csrf.DefaultCrumbIssuer
+  #     import jenkins.model.Jenkins
+  #     if(!Jenkins.instance.isQuietingDown()) {
+  #     def j = Jenkins.instance
+  #     if(j.getCrumbIssuer() != null) {
+  #     j.setCrumbIssuer(null)
+  #     j.save()
+  #     println 'CSRF Protection configuration has changed.  Disabled CSRF Protection.'
+  #     }
+  #     else {
+  #     println 'Nothing changed.  CSRF Protection already configured.'
+  #     }
+  #     }
+  #     else {
+  #     println "Shutdown mode enabled.  Configure CSRF protection SKIPPED."
+  #     }
+  #    user: admin
+  #    password: "{{ adminpwd.stdout }}"
   
-  - name: complete setup wizard
-    jenkins_script:
-     script: |
-      import static jenkins.model.Jenkins.instance as jenkins
-      import jenkins.install.InstallState
-      if (!jenkins.installState.isSetupComplete()) {
-        InstallState.INITIAL_SETUP_COMPLETED.initializeState()
-      }
-     user: admin
-     password: "{{ adminpwd.stdout }}"
+  # - name: complete setup wizard
+  #   jenkins_script:
+  #    script: |
+  #     import static jenkins.model.Jenkins.instance as jenkins
+  #     import jenkins.install.InstallState
+  #     if (!jenkins.installState.isSetupComplete()) {
+  #       InstallState.INITIAL_SETUP_COMPLETED.initializeState()
+  #     }
+  #    user: admin
+  #    password: "{{ adminpwd.stdout }}"
 
-  - name: install plugin
-    jenkins_plugin:
-     name: "{{ item }}"
-     state: latest
-     url_username: admin
-     url_password: "{{ adminpwd.stdout }}"
-    with_items: "{{ jenkins_plugins }}"
-    become: true
+  # - name: install plugin
+  #   jenkins_plugin:
+  #    name: "{{ item }}"
+  #    state: latest
+  #    url_username: admin
+  #    url_password: "{{ adminpwd.stdout }}"
+  #   with_items: "{{ jenkins_plugins }}"
+  #   become: true
 
-  - name: Add nodejs repository to PPA list
-    apt_repository:
-      repo: deb https://deb.nodesource.com/node_11.x xenial main
-      state: present
-    become: true
+  # - name: Add nodejs repository to PPA list
+  #   apt_repository:
+  #     repo: deb https://deb.nodesource.com/node_11.x xenial main
+  #     state: present
+  #   become: true
 
-  - name: Install nginx and node
-    apt:
-      name: "{{ packages }}"
-      state: present
-      allow_unauthenticated: yes
-    vars:
-      packages:
-          - nginx
-          - nodejs
-          - python-pip
-    become: true
+  # - name: Install nginx and node
+  #   apt:
+  #     name: "{{ packages }}"
+  #     state: present
+  #     allow_unauthenticated: yes
+  #   vars:
+  #     packages:
+  #         - nginx
+  #         - nodejs
+  #         - python-pip
+  #   become: true
 
-  - name: Install Jenkins Job builder
-    pip:
-     name: jenkins-job-builder
+  # - name: Install Jenkins Job builder
+  #   pip:
+  #    name: jenkins-job-builder
 
-  - name: Set all environment variables
-    become: true
-    blockinfile: 
-      path: /etc/environment 
-      content: |
-          APP_PORT=3002
-          MONGO_IP=127.0.0.1
-          MONGO_USER=admin_mongo_user
-          MONGO_PASSWORD=123456
-          MAIL_USER=csc519s19gworah@gmail.com
-          MAIL_PASSWORD=abcabc
-          MAIL_SMTP=smtp.gmail.com
+  # - name: Set all environment variables
+  #   become: true
+  #   blockinfile: 
+  #     path: /etc/environment 
+  #     content: |
+  #         APP_PORT=3002
+  #         MONGO_IP=127.0.0.1
+  #         MONGO_USER=admin_mongo_user
+  #         MONGO_PASSWORD=123456
+  #         MAIL_USER=csc519s19gworah@gmail.com
+  #         MAIL_PASSWORD=abcabc
+  #         MAIL_SMTP=smtp.gmail.com
 
-  - name: Install MongoDB
-    become: true
-    apt:
-        deb: https://repo.mongodb.org/apt/ubuntu/dists/trusty/mongodb-org/4.0/multiverse/binary-amd64/mongodb-org-server_4.0.6_amd64.deb
-        state: present
+  # - name: Install MongoDB
+  #   become: true
+  #   apt:
+  #       deb: https://repo.mongodb.org/apt/ubuntu/dists/trusty/mongodb-org/4.0/multiverse/binary-amd64/mongodb-org-server_4.0.6_amd64.deb
+  #       state: present
 
-  - name: Install the latest pymongo package
-    pip: name=pymongo state=latest use_mirrors=no
+  # - name: Install the latest pymongo package
+  #   pip: name=pymongo state=latest use_mirrors=no
 
-  - name: Install Jenkins Job builder
-    pip:
-      name: jenkins-job-builder
+  # - name: Install Jenkins Job builder
+  #   pip:
+  #     name: jenkins-job-builder
 
-  - name: Copy service file to web-srv
-    become: true
+  # - name: Copy service file to web-srv
+  #   become: true
+  #   template:
+  #     src: template/mongod.service
+  #     dest: /lib/systemd/system/mongod.service 
+  #     owner: root
+  #     group: root
+  #     mode: 0644
+
+  # - name: Make sure MongoDB service is running
+  #   systemd:
+  #     state: started
+  #     name: mongod
+  #   become: true
+
+  # - name: Create MongoDB Admin user
+  #   mongodb_user:
+  #     database: admin
+  #     name: admin_mongo_user
+  #     password: 123456
+  #     state: present
+
+  # - name: Checkout from git repo
+  #   git:
+  #     repo: 'https://github.com/gautamworah96/checkbox.io.git'
+  #     dest: /home/vagrant/checkBoxCode
+
+  # - name: Install packages based on package.json.
+  #   npm:
+  #       path: /home/vagrant/checkBoxCode/server-side/site
+
+  # - name: checking if folder exists
+  #   stat: path=/home/vagrant/jobs/checkBox.yml
+  #   register: st
+
+  # - name: checking if folder exists
+  #   stat: path=/home/vagrant/jobs/ITrust.yml
+  #   register: sta
+
+  # - name: copy the jobs file to the jobs folder
+  #   become: yes
+  #   copy:
+  #     src: jobs/
+  #     dest: /home/vagrant/jobs/
+  
+  # - name: Update jenkins job
+  #   command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{admin_user_pass}}" update jobs/
+  #   args:
+  #     chdir: /home/vagrant
+
+  # - name: change port
+  #   become: true
+  #   lineinfile:
+  #     path: /etc/default/jenkins
+  #     regexp: '^HTTP_PORT='
+  #     line: 'HTTP_PORT=8081'
+
+  # - name: restart jenkins service, in all cases
+  #   become: yes
+  #   systemd:
+  #     name: jenkins
+  #     state: restarted 
+
+  # - name: Wait for jenkins to come up
+  #   uri:
+  #      url: "http://192.168.33.100:8081/login?from=%2F"
+  #      status_code: 200
+  #   register: result
+  #   until: result.status == 200
+  #   retries: 20
+  #   delay: 5
+
+  # - name: create bare folder "jenkins-checkbox" 
+  #   file:
+  #     path: /home/vagrant/deploy/jenkins-checkbox.git
+  #     state: directory
+  #     mode: 0777
+  
+  # - name: create bare folder "jenkins-checkbox" 
+  #   file:
+  #     path: /home/vagrant/deploy/jenkins-itrust.git
+  #     state: directory
+  #     mode: 0777
+
+  # - name: git bare initialize for checkbox
+  #   become: true
+  #   command: git init --bare
+  #   args:
+  #     chdir: /home/vagrant/deploy/jenkins-checkbox.git
+
+  # - name: git bare initialize for itrust
+  #   become: true
+  #   command: git init --bare
+  #   args:
+  #     chdir: /home/vagrant/deploy/jenkins-itrust.git
+
+  # - name: Add remote url for checkbox
+  #   template:
+  #     src: template/config-checkbox
+  #     remote_src: no
+  #     dest: /home/vagrant/checkBoxCode/.git/config
+  #     owner: vagrant
+  #     group: vagrant
+  #     mode: 0664
+
+  # - name: Add remote url
+  #   template:
+  #     src: template/config-itrust
+  #     remote_src: no
+  #     dest: /home/vagrant/iTrust2-v4/iTrust2/.git/config
+  #     owner: vagrant
+  #     group: vagrant
+  #     mode: 0664   
+          
+  - name: copy the post-receive hook remote repository checkBoxCode
+    become: yes
     template:
-      src: template/mongod.service
-      dest: /lib/systemd/system/mongod.service 
+      src: template/post-receive-checkbox
+      dest: /home/vagrant/deploy/jenkins-checkbox.git/hooks/post-receive
       owner: root
       group: root
-      mode: 0644
-
-  - name: Make sure MongoDB service is running
-    systemd:
-      state: started
-      name: mongod
-    become: true
-
-  - name: Create MongoDB Admin user
-    mongodb_user:
-      database: admin
-      name: admin_mongo_user
-      password: 123456
-      state: present
-
-  - name: Checkout from git repo
-    git:
-      repo: 'https://github.com/gautamworah96/checkbox.io.git'
-      dest: /home/vagrant/checkBoxCode
-
-  - name: Install packages based on package.json.
-    npm:
-        path: /home/vagrant/checkBoxCode/server-side/site
-
-  - name: checking if folder exists
-    stat: path=/home/vagrant/jobs/checkBox.yml
-    register: st
-
-  - name: checking if folder exists
-    stat: path=/home/vagrant/jobs/ITrust.yml
-    register: sta
-
-  - name: copy the jobs file to the jobs folder
-    become: yes
-    copy:
-      src: jobs/
-      dest: /home/vagrant/jobs/
+      mode: 0777
   
-  - name: Update jenkins job
-    command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{admin_user_pass}}" update jobs/
-    args:
-      chdir: /home/vagrant
-
-  - name: change port
-    become: true
-    lineinfile:
-      path: /etc/default/jenkins
-      regexp: '^HTTP_PORT='
-      line: 'HTTP_PORT=8081'
-
-  - name: restart jenkins service, in all cases
-    become: yes
-    systemd:
-      name: jenkins
-      state: restarted 
-
-  - name: Wait for jenkins to come up
-    uri:
-       url: "http://192.168.33.100:8081/login?from=%2F"
-       status_code: 200
-    register: result
-    until: result.status == 200
-    retries: 20
-    delay: 5      
+  # - name: copy the post-receive hook remote repository itrust
+  #   become: yes
+  #   template:
+  #     src: template/post-receive-itrust
+  #     dest: /home/vagrant/deploy/jenkins-itrust.git/hooks/post-receive
+  #     owner: root
+  #     group: root
+  #     mode: 0777    

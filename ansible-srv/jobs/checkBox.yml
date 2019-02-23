@@ -1,15 +1,16 @@
 - job:
-    name: Test1234
+    name: checkBox Build
     description: 'My nodejs App'
     project-type: freestyle
     block-downstream: false
     scm:
     - git:
         skip-tag: false
-        url: https://github.com/chrisparnin/checkbox.io.git
+        url: /home/vagrant/checkBoxCode/
     auth-token: abcdefghi
     builders:
       - shell: |
           cd server-side/site
           npm install
-          nodejs server.js
+          npm test
+          
