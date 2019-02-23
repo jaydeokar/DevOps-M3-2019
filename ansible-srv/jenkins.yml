@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  vars_files: 
+     - vars.yml
   vars:
       admin_user_pass: userPasswordDemo
       jenkins_plugins: 
@@ -34,12 +36,12 @@
           - script-security
           
   tasks:
-  - name: install jre8
-    apt:
-     name: openjdk-8-jre
-     state: present
-     update_cache: yes
-    become: true
+#  - name: install jre8
+ #   apt:
+  #   name: openjdk-8-jre
+   #  state: present
+    # update_cache: yes
+   # become: true
  
   - name: add jenkins repo key
     apt_key:

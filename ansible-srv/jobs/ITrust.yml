@@ -6,8 +6,12 @@
     scm:
     - git:
         skip-tag: false
-        url: https://github.com/chrisparnin/checkbox.io.git
+        url: https://github.com/gautamworah96/iTrust 
     auth-token: abcdefghi
     builders:
       - shell: |
+          # cd /home/vagrant/iTrust2-v4/iTrust2
+          sudo cp /home/vagrant/iTrust2-v4/iTrust2/src/main/java/email.properties iTrust2/src/main/java/email.properties
+          cd iTrust2 && sudo  mvn -f pom-data.xml process-test-classes
+          sudo mvn clean test verify checkstyle:checkstyle
             

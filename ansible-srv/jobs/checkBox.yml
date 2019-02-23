@@ -12,4 +12,5 @@
       - shell: |
           cd server-side/site
           npm install
-          nodejs server.js
+          #nodejs server.js
+          npm test
