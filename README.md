@@ -18,9 +18,6 @@ The following playbooks perform the mentioned functionalities.
 
 Tasks done:
 
-Using a combination of jenkins-job-builder and ansible, jenkins build job for two applications:
-A nodejs web application checkbox.io.
-An "enterprise" Java system iTrust
 
 
 
