@@ -21,8 +21,8 @@ Using jenkins-job-builder and ansible, a jenkins pipeline has been built for two
     checkboxbuild
     iTrust Build 
 
-iTrust Build Job  --> **mvn -f pom-data.xml process-test-classes** builds the database and creates sample data and 
-                      **mvn clean test verify checkstyle:checkstyle** runs the unit tests, launches the server, runs the integration tests
+iTrust Build Job  --> **mvn -f pom-data.xml process-test-classes** builds the database and creates sample data and  **mvn clean test verify checkstyle:checkstyle** runs the unit tests, launches the server, runs the integration tests
+                      
 checkboxbuild Job -->                     
 
 **To run the playbook**
