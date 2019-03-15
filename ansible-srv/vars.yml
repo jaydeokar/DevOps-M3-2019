@@ -10,3 +10,34 @@ MAIL_SMTP: "smtp.gmail.com"
 REPO: "https://github.com/gautamworah96/checkbox.io.git"
 URL: "/192.168.33.100:8080/"
 CURL: "/192.168.33.100:8081/"
+admin_user_pass: userPasswordDemo
+jenkins_plugins: 
+          - token-macro
+          - build-pipeline-plugin
+          - git
+          - git-client
+          - scm-api
+          - credentials
+          - workflow-scm-step
+          - matrix-project
+          - structs
+          - workflow-step-api
+          - mailer
+          - ssh-credentials
+          - parameterized-trigger
+          - jquery
+          - workflow-step-api
+          - conditional-buildstep
+          - apache-httpcomponents-client-4-api
+          - jsch
+          - display-url-api
+          - junit 
+          - script-security
+          - workflow-api
+          - maven-plugin
+          - javadoc 
+          - run-condition
+          - credentials
+          - structs
+          - bouncycastle-api
+          - script-security

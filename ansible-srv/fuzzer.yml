@@ -1,0 +1,24 @@
+---
+- hosts: all
+  vars_files:  vars.yml
+      
+  tasks:
+  - name: Git clone Commit Fuzzer
+    git: repo=https://github.com/gautamworah96/CommitFuzzing dest=/home/vagrant/Fuzzer
+
+  - name: Install Fuzzing packages based on package.json.
+    npm:
+      path: /home/vagrant/Fuzzer/CommitFuzzing
+
+  - name: Switch to the fuzzer branch
+    shell: git checkout fuzzer 
+    args:
+      chdir: /home/vagrant/iTrust2-v4
+    become: true
+
+  - name: Fuzz the code
+    include: fuzzAndCommit.yml  
+    with_sequence: start=1 end=1 stride=1
+
+
+
