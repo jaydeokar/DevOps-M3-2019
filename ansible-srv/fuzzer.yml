@@ -41,6 +41,9 @@
     args:
       chdir: /home/vagrant/TestPrioritization/
     become: true
+    register: testAnalysisOutput
+
+  - copy: content="{{ testAnalysisOutput }}" dest=/home/vagrant/testAnalysisResult
 
 
 
