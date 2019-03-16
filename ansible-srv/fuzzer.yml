@@ -10,6 +10,22 @@
     npm:
       path: /home/vagrant/Fuzzer/CommitFuzzing
 
+  - file:
+      path: /home/vagrant/SurefireReports
+      state: directory
+  
+  - file:
+      path: /home/vagrant/TestPrioritization
+      state: directory
+
+
+  - name: Git clone Test prioritization analysis script
+    git: repo=https://github.com/jaydeokar/TestPrioritizationAnalysis.git dest=/home/vagrant/TestPrioritization
+
+  - name: Install prioritization packages based on package.json.
+    npm:
+      path: /home/vagrant/TestPrioritization
+  
   - name: Switch to the fuzzer branch
     shell: git checkout fuzzer 
     args:
@@ -19,6 +35,12 @@
   - name: Fuzz the code
     include: fuzzAndCommit.yml  
     with_sequence: start=1 end=1 stride=1
+
+  - name: Execute the test report analysis script
+    command: node main.js
+    args:
+      chdir: /home/vagrant/TestPrioritizationAnalysis/
+    become: true
 
 
 

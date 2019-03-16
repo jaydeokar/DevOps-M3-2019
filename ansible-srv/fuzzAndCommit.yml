@@ -55,6 +55,9 @@
 - debug:
     msg: "{{resultCurrent}}"
 
+- name: Copying reports from workspace to storage directory
+  shell: cp -r /var/lib/jenkins/workspace/iTrust\ Build/iTrust2/target/surefire-reports  /home/vagrant/SurefireReports/surefire-reports{{ansible_date_time.time}}
+
 - name: Reset the git HEAD to previous good state 
   shell: git reset --hard HEAD~1
   args:
