@@ -34,7 +34,7 @@
 
   - name: Fuzz the code
     include: fuzzAndCommit.yml  
-    with_sequence: start=1 end=1 stride=1
+    with_sequence: start=1 end=2 stride=1
 
   - name: Execute the test report analysis script
     command: node main.js
