@@ -1,1 +1,2 @@
-.vagrant
+./ansible-srv/.vagrant/
+./web-srv/.vagrant/

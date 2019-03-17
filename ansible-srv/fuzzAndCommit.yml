@@ -1,4 +1,3 @@
-
 - name: debug msg
   debug:
     msg: "inside fuzz and commit"
@@ -55,20 +54,19 @@
 - debug:
     msg: "{{resultCurrent}}"
 
+- name: Check for surefire reports directory    
+  stat: 
+    path: /var/lib/jenkins/workspace/iTrust Build/iTrust2/target/surefire-reports/
+  register: p
+
 - name: Copying reports from workspace to storage directory
   shell: cp -r /var/lib/jenkins/workspace/iTrust\ Build/iTrust2/target/surefire-reports  /home/vagrant/SurefireReports/surefire-reports{{ansible_date_time.time}}
+  when: p.stat.isdir is defined and p.stat.isdir
 
 - name: Reset the git HEAD to previous good state 
   shell: git reset --hard HEAD~1
   args:
     chdir: /home/vagrant/iTrust2-v4
   become: true
-
-
-
-
-
-  
-
 
 

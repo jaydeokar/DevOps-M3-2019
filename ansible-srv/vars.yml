@@ -41,3 +41,17 @@ jenkins_plugins:
           - structs
           - bouncycastle-api
           - script-security
+          - workflow-support
+          - durable-task
+          - antisamy-markup-formatter
+          - workflow-durable-task-step
+          - resource-disposer 
+          - workflow-job
+          - analysis-model-api
+          - antisamy-markup-formatter 
+          - warnings-ng
+          - ws-cleanup
+          - findbugs
+          - jacoco
+          - checkstyle
+          - analysis-core

@@ -311,4 +311,16 @@
         path: /etc/sudoers 
         line: "jenkins ALL=(ALL) NOPASSWD: ALL" 
     become: true
+
+  - name: Set timezone to EST
+    lineinfile: 
+      dest: /etc/timezone 
+      regexp: ".*" 
+      line: "EST"
+    become: yes
+
+  - name: Install the headless chrome package
+    apt:
+      deb: https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+    become: true
    

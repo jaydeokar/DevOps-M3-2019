@@ -39,8 +39,11 @@
   - name: Execute the test report analysis script
     command: node main.js
     args:
-      chdir: /home/vagrant/TestPrioritizationAnalysis/
+      chdir: /home/vagrant/TestPrioritization/
     become: true
+    register: testAnalysisOutput
+
+  - copy: content="{{ testAnalysisOutput }}" dest=/home/vagrant/testAnalysisResult
 
 
 
