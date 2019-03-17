@@ -59,10 +59,6 @@
     path: /var/lib/jenkins/workspace/iTrust Build/iTrust2/target/surefire-reports/
   register: p
 
-# - file:
-#     path: /home/vagrant/SurefireReports/surefire-reports{{ansible_date_time.time}}
-#     state: directory
-
 - name: Copying reports from workspace to storage directory
   shell: cp -r /var/lib/jenkins/workspace/iTrust\ Build/iTrust2/target/surefire-reports  /home/vagrant/SurefireReports/surefire-reports{{ansible_date_time.time}}
   when: p.stat.isdir is defined and p.stat.isdir
