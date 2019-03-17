@@ -55,6 +55,7 @@
     - name:  print current directory
       debug: 
          msg: "{{ ansible_facts.env['PWD'] }}"
+         
     - name: Ansible template creation
       template:
          src: /vagrant/root1.cnf.j2

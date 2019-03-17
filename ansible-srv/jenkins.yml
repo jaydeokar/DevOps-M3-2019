@@ -91,6 +91,13 @@
     # until: jenkinsUserCreation['stdout'] != ''
     # register: jenkinsUserCreation
 
+  - name: Set timezone to EST
+    lineinfile: 
+      dest: /etc/timezone 
+      regexp: ".*" 
+      line: "EST"
+    become: yes
+
   - name: Disable CSRF
     jenkins_script:
      script: |
