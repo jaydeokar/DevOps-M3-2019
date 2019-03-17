@@ -55,3 +55,16 @@ jenkins_plugins:
           - jacoco
           - checkstyle
           - analysis-core
+
+jenkins_user: "jenkins"
+jenkins_password: "userPasswordDemo" 
+mysql_user: "root"
+mysql_password: "root"
+mongo_admin_password: MONGO_PASSWORD
+mongo_checkbox_user: MONGO_USER
+mongo_checkbox_user: <value>
+mongo_checkbox_password: MONGO_PASSWORD
+email_username: MAIL_USER
+email_password: MAIL_PASSWORD
+checkbox_repo: REPO
+itrust_repo: "https://github.com/gautamworah96/iTrust"

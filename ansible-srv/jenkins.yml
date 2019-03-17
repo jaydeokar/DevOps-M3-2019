@@ -1,7 +1,7 @@
 ---
 - hosts: all
-  vars_files:  vars.yml
-      
+  vars_files: variables.yml
+  
   tasks:
   - name: install jre8
     apt:
@@ -82,7 +82,7 @@
       instance.setAuthorizationStrategy(strategy)
       instance.save()
      args:
-      user_pwd: "{{ admin_user_pass }}"
+      user_pwd: "{{ jenkins_password }}"
      user: admin
      password: "{{ adminpwd.stdout }}"
     retries: 10
@@ -238,7 +238,7 @@
       mode: 0777
   
   - name: Update jenkins job
-    command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{admin_user_pass}}" update jobs/
+    command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{jenkins_password}}" update jobs/
     args:
       chdir: /home/vagrant
 
