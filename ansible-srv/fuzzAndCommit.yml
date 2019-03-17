@@ -23,7 +23,7 @@
     url: http://192.168.33.100:8081/job/iTrust%20Build/lastCompletedBuild/api/json?pretty=true
     method: GET
     user: "jenkins"
-    password: "{{admin_user_pass}}"
+    password: "{{jenkins_password}}"
     force_basic_auth: yes
   register: result
   
@@ -43,7 +43,7 @@
     url: http://192.168.33.100:8081/job/iTrust%20Build/{{id_last_job}}/api/json?pretty=true
     method: GET
     user: "jenkins"
-    password: "{{admin_user_pass}}"
+    password: "{{jenkins_password}}"
     status: 200
     force_basic_auth: yes
   register: resultCurrent
