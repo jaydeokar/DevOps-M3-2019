@@ -18,7 +18,6 @@
       path: /home/vagrant/TestPrioritization
       state: directory
 
-
   - name: Git clone Test prioritization analysis script
     git: repo=https://github.com/jaydeokar/TestPrioritizationAnalysis.git dest=/home/vagrant/TestPrioritization
 
