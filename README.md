@@ -5,6 +5,39 @@
 
 Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Kumar K P (skrish26)
 
+**Contributions**
+Automated test generation on Checkbox: Gautam Worah, Bhavya Dwivedi
+Jenkins setup and Jacoco coverage: Gautam Worah ,Jay Deokar
+iTrust Commit Fuzzer & Test prioritization: Jay Deokar,Bhavya Dwivedi
+Report generation: Bhavya Dwivedi,Jay Deokar,Gautam Worah
+
+**Coverage/Jenkins Support**
+We have used Jacoco for coverage support 
+
+**Automated Commit Generation - Commit Fuzzer**
+We have created 2 files fuzzer.yml and fuzzAndCommit.yml. Their descriptions are below in the next section. 
+**Some of our fuzzing operations:**
+1. swap "<" with ">"
+2. swap "==" with "!=" 
+3. swap 0 with 1 
+4. swap "++" with "--" 
+5. swap "true" with "false"
+
+**Test prioritization analysis**
+
+
+**Analysis**
+**iTrust:**
+For iTrust, we have used FindBugs plugin for jenkins and we have extended the build job as reqquired to fail the Build if thresholds are violated. The changes for this have been done in pom.xml and /ansible-srv/jobs/iTrust.yml
+Also, we have set the minimum testing criteria for 50% statement coverage as threshold and configured the build to fail on violating this threshold.
+
+**CheckBox:**
+For checkbox, we have main.js in the COmplexity repository which is being cloned for doing the complexity analysis of checkbox's code and would fail if the threshold for these custom metrics are violated. 
+1. Max condition
+2. Long Method
+3. Freestyle: We did an analsis of if '==' or '!=' is being used to compare strings in the code. 
+
+
 A jenkins server has been provisoned and configured through an ansible playbook. Along with Jenkins, iTrust, checkbox.io has also been installed and configured on the same server.
 
 The following playbooks perform the mentioned functionalities.
