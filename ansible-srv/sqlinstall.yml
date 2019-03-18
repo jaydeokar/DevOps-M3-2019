@@ -2,10 +2,11 @@
 - hosts: all
   become: yes
   remote_user: root
+  vars_files: variables.yml
   vars_prompt:
-    - name: "password"
-      prompt: "please enter the password"
-      private: yes
+   # - name: "password"
+  #    prompt: "please enter the password"
+    #  private: yes
   tasks:
     - name: upgrade and update
       apt:
@@ -15,18 +16,18 @@
 
     - name: password given
       debug:
-        msg: "{{ password}}"
+        msg: "{{ mysql_password }}"
 
   tasks:
     - name: Mysql | Set root password
       become: yes
-      shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password password {{ password }}'
+      shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password password {{ mysql_password }}'
       args:
         executable: /bin/bash
 
     - name: Mysql | Set root password again
       become: yes
-      shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password {{ password }}' 
+      shell: debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password {{ mysql_password }}' 
       args:
         executable: /bin/bash
 
@@ -45,11 +46,11 @@
     - name: update mysql root password for all root accounts
       sudo: yes
       mysql_user: 
-        name: root
+        name: "{{ mysql_user }}"
         host: all 
         password: ""
-        login_user: root
-        login_password: "{{ password }}"
+        login_user: "{{ mysql_user }}"
+        login_password: "{{ mysql_password }}"
         check_implicit_admin: yes
         priv: "*.*:ALL,GRANT"
     - name:  print current directory

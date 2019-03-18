@@ -3,23 +3,25 @@
   vars_files: variables.yml
   become: true
   vars_prompt: 
-    - name: "githubuser" 
-      prompt: "Enter your github username" 
-      private: no 
-    - name: "githubpassword" 
-      prompt: "Enter your github password" 
-      private: yes 
-    - name: "password"
-      prompt: " Enter the mysql root current password  "
-    - name: "emailuser"
-      prompt: "Please enter the  email  username"
-    - name: "emailpwd"
-      prompt: "Please enter the email password"
+#    - name: "githubuser" 
+ #     prompt: "Enter your github username" 
+  #    private: no 
+ #   - name: "githubpassword" 
+  #    prompt: "Enter your github password" 
+   #   private: yes 
+ #   - name: "password"
+  #    prompt: " Enter the mysql root current password  "
+   # - name: "emailuser"
+  #    prompt: "Please enter the  email  username"
+   # - name: "emailpwd"
+    #  prompt: "Please enter the email password"
 
   tasks:
     
     - name: git clone iTrust
-      git: repo=https://github.com/gautamworah96/iTrust dest=/home/vagrant/iTrust2-v4
+      git: 
+        repo: "{{itrust_repo}}"
+        dest: /home/vagrant/iTrust2-v4
       ignore_errors: yes
 
     - name: copy db.properties
@@ -35,11 +37,11 @@
     - name: update mysql root password for all root accounts
       sudo: yes
       mysql_user:
-        name: root
+        name: "{{mysql_user}}"
         host: all
         password: ""
-        login_user: root
-        login_password: "{{ password }}"
+        login_user: "{{mysql_user}}"
+        login_password: ""
         check_implicit_admin: yes
         priv: "*.*:ALL,GRANT"
        

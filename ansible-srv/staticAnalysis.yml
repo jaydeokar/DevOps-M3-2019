@@ -1,0 +1,23 @@
+---
+- hosts: all
+  vars_files:  variables.yml
+
+  tasks:
+  - name: Git clone code complexity
+    git: repo=https://github.com/JARVIS1093/complexity.git   dest=/home/vagrant/StaticAnalysis
+
+  - name: Install code complexity packages based on package.json.
+    npm:
+      path: /home/vagrant/StaticAnalysis/complexity
+
+  - name: Execute the checkbox code analysis script
+    command: node analysis.js
+    args:
+      chdir: /home/vagrant/StaticAnalysis/
+    become: true
+    register: checkboxAnalysisOutput
+
+  - debug:
+      msg: checkboxAnalysisOutput
+
+

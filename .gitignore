@@ -1,2 +1,4 @@
 ./ansible-srv/.vagrant/
 ./web-srv/.vagrant/
+**/.vagrant
+private_key
