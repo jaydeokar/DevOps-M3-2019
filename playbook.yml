@@ -6,4 +6,4 @@
 -  import_playbook: itrust.yml
 -  import_playbook: staticAnalysis.yml
 -  import_playbook: fuzzer.yml
-#-  import_playbook: staticAnalysis.yml
+-  import_playbook: staticAnalysis.yml

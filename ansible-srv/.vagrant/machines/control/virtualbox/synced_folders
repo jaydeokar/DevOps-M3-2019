@@ -1,1 +1,0 @@
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/bhavya/17-2/DevOps-Milestone2/ansible-srv","disabled":false,"__vagrantfile":true},"/ssh":{"mount_options":["dmode=775,fmode=600","uid=1000","gid=1000"],"guestpath":"/ssh","hostpath":"/home/bhavya/17-2/DevOps-Milestone2/web-srv/.vagrant/machines","disabled":false,"__vagrantfile":true}}}
