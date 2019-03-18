@@ -1,4 +1,4 @@
-# DevOps-Milestone2 : Test And Analysis Milestone
+# DevOps-Milestone2 : Build, Test And Analysis Milestone
 
 
 **Team Members**
@@ -8,8 +8,8 @@ Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Ku
 **Contributions**
 1. Automated test generation on Checkbox: Gautam Worah, Bhavya Dwivedi
 2. Jenkins setup and Jacoco coverage: Gautam Worah ,Jay Deokar
-3. iTrust Commit Fuzzer & Test prioritization: Jay Deokar,Bhavya Dwivedi
-4. Report generation: Bhavya Dwivedi,Jay Deokar,Gautam Worah
+3. iTrust Commit Fuzzer & Test Prioritization: Jay Deokar, Bhavya Dwivedi, Gautam Worah
+4. Report generation: Bhavya Dwivedi, Jay Deokar, Gautam Worah
 
 **Coverage/Jenkins Support**
 We have used Jacoco for coverage support 
@@ -68,21 +68,21 @@ The following playbooks perform the mentioned functionalities.
     
  7) fuzzer.yml:
  
-    Clones TestPrioritizationAnalysis from the repository and then calls the fuzzAndCommit.yml n times(100) using a sequence. It also       runs the test prioritization analysis post the fuzzing and build and outputs the result in a file
+    Clones TestPrioritizationAnalysis from the repository and then calls the fuzzAndCommit.yml n times(100) using a sequence. It also runs the test prioritization analysis post the fuzzing and build and outputs the result in a file
     
  8) fuzzAndCommit.yml:
  
-    Fuzzes the code, does a commit on the fuzzer branch and then pushes the code on remote repository. It waits till the execution of       the build is completed (failed/success) after which the repository is again brough back to the previous commit.
+    Fuzzes the code, does a commit on the fuzzer branch and then pushes the code on remote repository. It waits till the execution of the build is completed (failed/success) after which the repository is again brough back to the previous commit.
  
 The following repositories have been used:
 
   1) [Test Prioritization Analysis](https://github.com/jaydeokar/TestPrioritizationAnalysis.git) 
-     Has the functionality of carrying out test case analysis and priorititization by analyizing surefire-reports
+     Implements the functionality of carrying out test case analysis and priorititization by analyzing Surefire-reports
   
   2) [Commit Fuzzing](https://github.com/gautamworah96/CommitFuzzing)
-     Has the functionality of randomly commiting a change in the code based on some predefined operations.
+     Implements the functionality of randomly commiting a change in the code based on some predefined operations.
   
-  3) [For esprima part](https://github.com/JARVIS1093/complexity)
+  3) [Custom metrics for checkbox using Esprima](https://github.com/JARVIS1093/complexity)
  
 Tasks done:
 
@@ -91,7 +91,7 @@ Using jenkins-job-builder and ansible, a jenkins pipeline has been built for two
     checkboxbuild
     iTrust Build 
     
-### [Report]:https://mail.google.com/mail/u/1/#inbox/FMfcgxwBWKVXNcrFsDJCBqNwWrJTQdWT
+### [Report](https://docs.google.com/document/d/1q-ZESONpco1jFykd5kq9DBDHix7a3VCu4e--KvJtqxE/edit?usp=sharing)
 
 
 
@@ -104,21 +104,21 @@ We run **mvn -f pom-data.xml process-test-classes** which builds the database an
 
 Post this we run **mvn clean test verify checkstyle:checkstyle findbugs:findbugs** which runs the unit tests, launches the server, runs the integration tests, and then runs the static analysis checks.
 
-We have also defined the thresholds in the jenkins job builder which fails the build based on the number of High Prirority warnings from Checkstyle, FindBugs or Code Coverage values from Jacoco report
+We have also defined the thresholds in the jenkins job builder which fails the build based on the number of high priority warnings from Checkstyle, FindBugs or Code Coverage values from Jacoco report.
 
 
                       
-                      
-checkboxbuild Job --> **npm test** starts the NodeJS server, tests the GET API at localhost:3002/api/study/listing , shuts down the server using pm2.                    
+         
+checkboxbuild Job --> **npm test** starts the NodeJS server, tests the GET API at localhost:3002/api/study/listing ,and shuts down the server using pm2. It also checks for the existence of an error file (the file records all violations of the thresholds that we have set for code quality).                   
 
 **To run the playbook ------**
 
 Run the following command from an ansible server
 
-```ansible-playbook -i inventory playbook.yml```
+```ansible-playbook -i inventory.ini playbook.yml```
 
 where inventory contains the details of the web server host to be configured.
 
 **SCREENCAST**
-[Milestone 2]https://drive.google.com/file/d/193vE1yHgAhQlW6cPmRgqtkvrEUeQMafP/view?usp=sharing
+[Milestone 2](https://drive.google.com/file/d/193vE1yHgAhQlW6cPmRgqtkvrEUeQMafP/view?usp=sharing)
 
