@@ -1,39 +1,7 @@
 ---
 - hosts: all
-  vars_files:  vars.yml
-  vars:
-      admin_user_pass: userPasswordDemo
-      jenkins_plugins: 
-          - token-macro
-          - build-pipeline-plugin
-          - git
-          - git-client
-          - scm-api
-          - credentials
-          - workflow-scm-step
-          - matrix-project
-          - structs
-          - workflow-step-api
-          - mailer
-          - ssh-credentials
-          - parameterized-trigger
-          - jquery
-          - workflow-step-api
-          - conditional-buildstep
-          - apache-httpcomponents-client-4-api
-          - jsch
-          - display-url-api
-          - junit 
-          - script-security
-          - workflow-api
-          - maven-plugin
-          - javadoc 
-          - run-condition
-          - credentials
-          - structs
-          - bouncycastle-api
-          - script-security
-          
+  vars_files: variables.yml
+  
   tasks:
   - name: install jre8
     apt:
@@ -41,7 +9,6 @@
      state: present
      update_cache: yes
     become: true  
-
  
   - name: add jenkins repo key
     apt_key:
@@ -115,7 +82,7 @@
       instance.setAuthorizationStrategy(strategy)
       instance.save()
      args:
-      user_pwd: "{{ admin_user_pass }}"
+      user_pwd: "{{ jenkins_password }}"
      user: admin
      password: "{{ adminpwd.stdout }}"
     retries: 10
@@ -123,6 +90,13 @@
 
     # until: jenkinsUserCreation['stdout'] != ''
     # register: jenkinsUserCreation
+
+  - name: Set timezone to EST
+    lineinfile: 
+      dest: /etc/timezone 
+      regexp: ".*" 
+      line: "EST"
+    become: yes
 
   - name: Disable CSRF
     jenkins_script:
@@ -182,6 +156,13 @@
           - nginx
           - nodejs
           - python-pip
+          - libappindicator1 
+          - fonts-liberation
+    become: true
+
+  - name: Install the headless chrome package
+    apt:
+      deb: https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
     become: true
 
   - name: Install Jenkins Job builder
@@ -257,7 +238,7 @@
       mode: 0777
   
   - name: Update jenkins job
-    command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{admin_user_pass}}" update jobs/
+    command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{jenkins_password}}" update jobs/
     args:
       chdir: /home/vagrant
 
@@ -315,15 +296,6 @@
       owner: vagrant
       group: vagrant
       mode: 0664
-
-#  - name: Add remote url for itrust
- #   template:
-  #    src: template/config-itrust
-   #   remote_src: no
-    #  dest: /home/vagrant/iTrust2-v4/iTrust2/.git/config
-     # owner: vagrant
-      #group: vagrant
-     # mode: 0664   
           
   - name: copy the post-receive hook remote repository checkBoxCode
     become: yes
@@ -334,12 +306,21 @@
       group: root
       mode: 0777
 
-#  - name: copy the post-receive hook remote repository itrust
- #   become: yes
-  #  template:
-   #   src: template/post-receive-itrust
-    #  dest: /home/vagrant/deploy/jenkins-itrust.git/hooks/post-receive
-     # owner: root
-    #  group: root
-     # mode: 0777
+  - name: Enabling access to Jenkins without password 
+    lineinfile: 
+        path: /etc/sudoers 
+        line: "jenkins ALL=(ALL) NOPASSWD: ALL" 
+    become: true
+
+  - name: Set timezone to EST
+    lineinfile: 
+      dest: /etc/timezone 
+      regexp: ".*" 
+      line: "EST"
+    become: yes
+
+  - name: Install the headless chrome package
+    apt:
+      deb: https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+    become: true
    
