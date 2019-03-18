@@ -90,6 +90,22 @@ Using jenkins-job-builder and ansible, a jenkins pipeline has been built for two
 
     checkboxbuild
     iTrust Build 
+    
+### Report:
+**Fuzzer Analysis: **
+We performed fuzzing operation for the following 5 cases.
+
+1. swap "<" with ">"
+2. swap "==" with "!=" 
+3. swap 0 with 1 
+4. swap "++" with "--" 
+5. swap "true" with "false"
+
+We started with swapping the found identifiers as per the above with a random probability generated through random function. We have different cases defined for any range of probability. 
+
+**Test Prioritization Analysis**
+Test prioritization report testAnalysisResult is generated which prioritizess 'Failed' test cases along with sorting all the test cases in increasing executuion time.
+
 
 ### For ITrust Build:
 
