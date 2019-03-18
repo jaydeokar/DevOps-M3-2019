@@ -92,7 +92,7 @@ Using jenkins-job-builder and ansible, a jenkins pipeline has been built for two
     iTrust Build 
     
 ### Report:
-**Fuzzer Analysis: **
+**Fuzzer Analysis:**
 We performed fuzzing operation for the following 5 cases.
 
 1. swap "<" with ">"
