@@ -119,3 +119,6 @@ Run the following command from an ansible server
 
 where inventory contains the details of the web server host to be configured.
 
+**SCREENCAST**
+[Milestone 2]https://drive.google.com/file/d/193vE1yHgAhQlW6cPmRgqtkvrEUeQMafP/view?usp=sharing
+
