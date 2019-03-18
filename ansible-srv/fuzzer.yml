@@ -42,7 +42,7 @@
     become: true
     register: testAnalysisOutput
 
-  - copy: content="{{ testAnalysisOutput }}" dest=/home/vagrant/testAnalysisResult
+  - copy: content="{{ testAnalysisOutput.stdout | to_nice_yaml }}" dest=/home/vagrant/testAnalysisResult
 
 
 

@@ -18,6 +18,7 @@
 
     publishers:
     - checkstyle:
+        can-run-on-failed: true
         thresholds:
           failed:
             total-high: 1
@@ -36,7 +37,7 @@
             total-high: 5
         dont-compute-new: false
         use-delta-values: false
-        use-previous-build-as-reference: false
+        use-previous-build-as-reference: true
         use-stable-build-as-reference: false
 
     - jacoco:
@@ -48,10 +49,10 @@
         exclusion-pattern: '**/*Test*.class'
         targets:
         - branch:
-            healthy: 60
-            unhealthy: 40
+            healthy: 95
+            unhealthy: 85
         - instruction:
-            healthy: 60
-            unhealthy: 40
+            healthy: 95
+            unhealthy: 80
             
             
