@@ -6,10 +6,10 @@
 Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Kumar K P (skrish26)
 
 **Contributions**
-Automated test generation on Checkbox: Gautam Worah, Bhavya Dwivedi
-Jenkins setup and Jacoco coverage: Gautam Worah ,Jay Deokar
-iTrust Commit Fuzzer & Test prioritization: Jay Deokar,Bhavya Dwivedi
-Report generation: Bhavya Dwivedi,Jay Deokar,Gautam Worah
+1. Automated test generation on Checkbox: Gautam Worah, Bhavya Dwivedi
+2. Jenkins setup and Jacoco coverage: Gautam Worah ,Jay Deokar
+3. iTrust Commit Fuzzer & Test prioritization: Jay Deokar,Bhavya Dwivedi
+4. Report generation: Bhavya Dwivedi,Jay Deokar,Gautam Worah
 
 **Coverage/Jenkins Support**
 We have used Jacoco for coverage support 
