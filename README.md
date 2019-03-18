@@ -20,7 +20,7 @@ We have created 2 files fuzzer.yml and fuzzAndCommit.yml. Their descriptions are
 1. swap "<" with ">"
 2. swap "==" with "!=" 
 3. swap 0 with 1 
-4. swap "++" with "--" 
+4. change content of strings
 5. swap "true" with "false"
 
 **Test prioritization analysis**
