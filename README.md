@@ -91,7 +91,8 @@ Using jenkins-job-builder and ansible, a jenkins pipeline has been built for two
     checkboxbuild
     iTrust Build 
     
-### Report:
+### [Report]:https://mail.google.com/mail/u/1/#inbox/FMfcgxwBWKVXNcrFsDJCBqNwWrJTQdWT
+
 
 
 
