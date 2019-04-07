@@ -1,0 +1,48 @@
+---
+    
+    - name: git clone iTrust
+      git: 
+        repo: "{{itrust_repo}}"
+        dest: /home/vagrant/iTrust2-v4
+      ignore_errors: yes
+
+    - name: copy db.properties
+      template:       
+         src: /vagrant/roles/itrust/template/db.properties.template
+         dest: /home/vagrant/iTrust2-v4/iTrust2/src/main/java/db.properties
+
+    - name: copy email.properties
+      template:
+         src: /vagrant/roles/itrust/template/email.properties.template
+         dest: /home/vagrant/iTrust2-v4/iTrust2/src/main/java/email.properties
+ #        remote_src: yes
+    - name: update mysql root password for all root accounts
+      sudo: yes
+      mysql_user:
+        name: "{{mysql_user}}"
+        host: all
+        password: ""
+        login_user: "{{mysql_user}}"
+        login_password: ""
+        check_implicit_admin: yes
+        priv: "*.*:ALL,GRANT"
+       
+
+    - name: Add remote url for itrust
+      template:
+        src: config-itrust
+        remote_src: no
+        dest: /home/vagrant/iTrust2-v4/.git/config
+        owner: vagrant
+        group: vagrant
+        mode: 0664
+ 
+    - name: copy the post-receive hook remote repository itrust
+      become: yes
+      template:
+        src: post-receive-iTrust
+        dest: /home/vagrant/deploy/jenkins-itrust.git/hooks/post-receive
+#        remote_src: yes
+        owner: root
+        group: root
+        mode: 0777
