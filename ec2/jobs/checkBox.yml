@@ -1,0 +1,15 @@
+- job:
+    name: checkBox Build
+    description: 'My nodejs App'
+    project-type: freestyle
+    block-downstream: false
+    scm:
+    - git:
+        skip-tag: false
+        url: /home/ubuntu/checkBoxCode/
+    auth-token: abcdefghi
+    builders:
+      - shell: |
+          cd server-side/site
+          npm install
+          npm test

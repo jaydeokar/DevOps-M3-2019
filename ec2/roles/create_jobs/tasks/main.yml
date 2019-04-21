@@ -1,0 +1,43 @@
+---
+  - name: checking if folder exists
+    stat: path=/home/ubuntu/jobs/checkBox.yml
+    register: st
+
+  - name: checking if folder exists
+    stat: path=/home/ubuntu/jobs/ITrust.yml
+    register: sta
+
+  - name: copy the jobs file to the jobs folder
+    become: yes
+    copy:
+      src: jobs/
+      dest: /home/ubuntu/jobs/
+      mode: 0777
+  - name: Update jenkins job
+    command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{jenkins_password}}" update jobs/
+    args:
+      chdir: /home/ubuntu
+
+  - name: change port
+    become: true
+    lineinfile:
+      path: /etc/default/jenkins
+      regexp: '^HTTP_PORT='
+      line: 'HTTP_PORT=8081'
+
+  - name: restart jenkins service, in all cases
+    become: yes
+    systemd:
+      name: jenkins
+      state: restarted
+
+  - name: Wait for jenkins to come up
+    uri:
+       url: "http:/{{CURL}}login?from=%2F"
+       status_code: 200
+    register: result
+    until: result.status == 200
+    retries: 20
+    delay: 5
+
+

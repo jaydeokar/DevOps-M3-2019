@@ -1,0 +1,42 @@
+---
+  - name: create bare folder "jenkins-checkbox"
+    file:
+      path: /home/ubuntu/deploy/jenkins-checkbox.git
+      state: directory
+      mode: 0777
+
+  - name: create bare folder "jenkins-itrust"
+    file:
+      path: /home/ubuntu/deploy/jenkins-itrust.git
+      state: directory
+      mode: 0777
+
+  - name: git bare initialize for checkbox
+    become: true
+    command: git init --bare
+    args:
+      chdir: /home/ubuntu/deploy/jenkins-checkbox.git
+
+  - name: git bare initialize for itrust
+    become: true
+    command: git init --bare
+    args:
+      chdir: /home/ubuntu/deploy/jenkins-itrust.git
+  - name: Add remote url for checkbox
+    template:
+      src: config-checkbox
+      remote_src: no
+      dest: /home/ubuntu/checkBoxCode/.git/config
+      owner: ubuntu
+      group: ubuntu
+      mode: 0664
+
+  - name: copy the post-receive hook remote repository checkBoxCode
+    become: yes
+    template:
+      src: post-receive-checkbox
+      dest: /home/ubuntu/deploy/jenkins-checkbox.git/hooks/post-receive
+      owner: root
+      group: root
+      mode: 0777
+

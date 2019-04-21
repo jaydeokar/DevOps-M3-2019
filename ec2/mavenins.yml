@@ -1,0 +1,15 @@
+---
+- hosts: ec2hosts
+  remote_user: ubuntu
+  vars:
+        ansible_ssh_private_key_file: /vagrant/mile3.pem
+        ansible_python_interpreter: /usr/bin/python3
+  connection: ssh
+  roles:
+    - maven
+  # tasks:
+  #  - name: installing maven (and other packages if needed)
+  #    become: yes
+  #    apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  #    with_items:
+  #        - maven

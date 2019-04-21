@@ -1,0 +1,58 @@
+- job:
+    name: iTrust Build
+    description: 'My Itrust App'
+    project-type: freestyle
+    block-downstream: false
+    scm:
+    - git:
+        skip-tag: false
+        url: /home/ubuntu/iTrust2-v4/ 
+    auth-token: abcdefghi
+    builders:
+      - shell: |
+          # cd /home/vagrant/iTrust2-v4/iTrust2
+          sudo cp /home/ubuntu/iTrust2-v4/iTrust2/src/main/java/email.properties iTrust2/src/main/java/email.properties
+          cd iTrust2 &&  mvn -f pom-data.xml process-test-classes
+          mvn clean test verify checkstyle:checkstyle findbugs:findbugs
+        #   cp  -r ./target/surefire-reports/  /home/vagrant/reports/surefire-reports.$(date +%F_%R)
+
+    publishers:
+    - checkstyle:
+        can-run-on-failed: true
+        thresholds:
+          failed:
+            total-high: 1
+
+    - findbugs:
+        pattern: '**/findbugsXml.xml'
+        rank-priority: true
+        can-run-on-failed: true
+        should-detect-modules: true
+        healthy: 30
+        unhealthy: 45
+        health-threshold: 'high'
+        thresholds:
+          failed:
+            total-all: 60
+            total-high: 5
+        dont-compute-new: false
+        use-delta-values: false
+        use-previous-build-as-reference: true
+        use-stable-build-as-reference: false
+
+    - jacoco:
+        exec-pattern: '**/**.exec'
+        class-pattern: '**/classes'
+        source-pattern: '**/src/main/java'
+        update-build-status: true
+        inclusion-pattern: '**/*.class'
+        exclusion-pattern: '**/*Test*.class'
+        targets:
+        - branch:
+            healthy: 95
+            unhealthy: 85
+        - instruction:
+            healthy: 95
+            unhealthy: 80
+            
+            
