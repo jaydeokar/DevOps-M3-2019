@@ -1,0 +1,143 @@
+---
+  - name: Update and upgrade apt packages
+    become: true
+    apt:
+      upgrade: yes
+      update_cache: yes
+
+  - name: install git
+    apt:
+     name: git
+     state: present
+    become: true
+
+  - name: add apt key
+    command: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
+    become: true
+
+  - name: Add nodejs repository to PPA list
+    apt_repository:
+      repo: deb https://deb.nodesource.com/node_11.x xenial main
+      state: present
+    become: true
+
+  - name: Install nginx and node
+    apt:
+      name: "{{ packages }}"
+      state: present
+      allow_unauthenticated: yes
+    vars:
+      packages:
+          - nginx
+          - nodejs
+          - python3-pip
+          - libappindicator1 
+          - fonts-liberation
+    become: true
+
+  - name: Set all environment variables
+    become: true
+    blockinfile: 
+      path: /etc/environment 
+      content: |
+          APP_PORT="{{APP_PORT}}"
+          MONGO_IP="{{MONGO_IP}}"
+          MONGO_USER="{{MONGO_USER}}"
+          MONGO_PASSWORD="{{MONGO_PASSWORD}}"
+          MAIL_USER="{{MAIL_USER}}"
+          MAIL_PASSWORD="{{MAIL_PASSWORD}}""
+          MAIL_SMTP="{{MAIL_SMTP}}"
+
+  - name: Install MongoDB
+    become: true
+    apt:
+        deb: https://repo.mongodb.org/apt/ubuntu/dists/trusty/mongodb-org/4.0/multiverse/binary-amd64/mongodb-org-server_4.0.6_amd64.deb
+        state: present
+
+  - name: Install the latest pymongo package
+    pip: name=pymongo state=latest use_mirrors=no
+
+  - name: Copy service file to web-srv
+    become: true
+    template:
+      src: mongod.service
+      dest: /lib/systemd/system/mongod.service 
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Make sure MongoDB service is running
+    systemd:
+      state: started
+      name: mongod
+    become: true
+
+  - name: Create MongoDB Admin user
+    mongodb_user:
+      database: admin
+      name: "{{MONGO_USER}}"
+      password: "{{MONGO_PASSWORD}}"
+      state: present
+
+  - name: Checkout from git repo
+    git:
+      repo: "{{REPO}}"
+      dest: /home/ubuntu/checkBoxCode
+
+  - name: Install packages based on package.json.
+    npm:
+        path: /home/ubuntu/checkBoxCode/server-side/site
+
+  - name: Make sure mongod service is running
+    systemd:
+      state: started
+      name: mongod
+    become: true
+
+  - name: "Install forever (to run Node.js app)."
+    npm: name=forever global=yes state=present
+    become: yes
+  
+  - name: "Check list of Node.js apps running."
+    command: forever list
+    register: forever_list
+    changed_when: false
+
+  - name: "Start example Node.js app."
+    shell: PORT=3002 forever start /home/ubuntu/checkBoxCode/server-side/site/server.js 
+    when: "forever_list.stdout.find('/home/ubuntu/checkBoxCode/server-side/site/server.js') == -1"
+
+  # - name: Start the checkbox code
+  #   shell: nohup npm start &
+  #   args:
+  #     chdir: /home/ubuntu/checkBoxCode/server-side/site/
+
+  - name: move nginx config file
+    copy:
+      src: /home/ubuntu/checkBoxCode/local-conf/nginx.conf
+      dest: /etc/nginx/nginx.conf
+      remote_src: yes
+    become: yes
+
+  - name: move nginx sites enabled file
+    copy:
+      src: /home/ubuntu/checkBoxCode/local-conf/sites-enabled/default
+      dest: /etc/nginx/sites-enabled/default
+      remote_src: yes
+    become: yes
+
+  - name: move nginx sites available file
+    copy:
+      src: /home/ubuntu/checkBoxCode/local-conf/sites-available/default
+      dest: /etc/nginx/sites-available/default
+      remote_src: yes
+    become: yes
+    
+  - name: Make sure nginx service is running
+    systemd:
+      state: restarted
+      name: nginx
+    become: true
+
+
+

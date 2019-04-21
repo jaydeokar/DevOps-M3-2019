@@ -1,0 +1,90 @@
+---
+  - name: Generate SSH keys -> ssh-keygen -t rsa -b 4096 -C "devops@example.com"
+    shell: ssh-keygen -b 4096 -t rsa -f /home/ubuntu/.ssh/id_rsa -q -N ""
+    args:
+      creates: /home/ubuntu/.ssh/id_rsa
+
+  - name:  Install kops
+    shell: wget -O kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+    
+  - name: sudo mv ./kops /usr/local/bin/
+    copy:
+      src: ./kops
+      dest: /usr/local/bin/
+      remote_src: yes
+    become: yes
+
+  - name: Changing perm of "./kops", adding "+x"
+    file: dest=/usr/local/bin/kops mode=+x
+    become: yes
+
+  - name:  Install kubectl
+    shell: wget -O kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+
+  - name: sudo mv ./kubectl /usr/local/bin/kubectl
+    copy:
+      src: ./kubectl
+      dest: /usr/local/bin/kubectl
+      remote_src: yes
+    become: yes
+
+  - name: Changing perm of "./kubectl", adding "+x"
+    file: dest=/usr/local/bin/kubectl mode=+x
+    become: yes
+
+  - name: check if cluster exists
+    command: kops get clusters
+    register: clusterExists
+
+  - name:  kops create cluster
+    command: kops create cluster --zones us-east-1a --name=kubeservice.k8s.local --state=s3://kube-service-store --ssh-public-key /home/ubuntu/.ssh/id_rsa.pub
+    when: '"{{NAME}}" not in clusterExists.stdout'
+
+  - name:  kops update cluster
+    command: kops update cluster kubeservice.k8s.local --yes 
+    when: '"{{NAME}}" not in clusterExists.stdout'
+
+  - name: check whether cluster is ready
+    command: kops validate cluster
+    register: clusterOutput
+    until: '"is ready" in clusterOutput.stdout'       
+    retries: 50
+    delay: 50
+
+  - name:  create a deplyment
+    command: kubectl run hello-world-markdown --replicas=3 --labels="run=load-balancer-example-markdown" --image=gautamworah96/markdown:v2 --port=8081
+    when: '"{{NAME}}" not in clusterExists.stdout'
+
+  - name:  expose the deployment
+    command: kubectl expose deployment hello-world-markdown --type=LoadBalancer --name=my-service-markdown
+    when: '"{{NAME}}" not in clusterExists.stdout'
+
+  - name:  get the line of external ip address
+    shell: kubectl describe services my-service-markdown | grep "LoadBalancer Ingress:"
+    register: serviceOutput
+
+  - name: apply regex to get the exact external IP
+    set_fact:
+      externalIP: "{{ serviceOutput.stdout | regex_search(regexp) | trim }}"
+    vars:
+      regexp: '[^:]*$'
+  
+  - debug:
+      var: externalIP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

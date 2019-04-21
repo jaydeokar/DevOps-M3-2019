@@ -1,0 +1,11 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  vars_files: 
+    - variables.yml 
+  connection: ssh
+  environment:
+    # KUBE_URL: "{{externalIP}}"
+
+  roles:
+    - deployCheckbox

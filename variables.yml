@@ -68,4 +68,6 @@ email_username: "bddw112"
 email_password: "bhavya11"
 checkbox_repo: "{{ REPO }}"
 itrust_repo: "https://github.com/gautamworah96/iTrust"
+ansible_python_interpreter: /usr/bin/python3 
+
 

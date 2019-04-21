@@ -1,0 +1,19 @@
+---
+- hosts: all
+  remote_user: ubuntu 
+  vars: 
+    ansible_python_interpreter: /usr/bin/python3 
+    NAME: kubeservice.k8s.local
+  connection: ssh
+  environment:
+      NAME: kubeservice.k8s.local
+      KOPS_STATE_STORE: s3://kube-service-store
+      AWS_ACCESS_KEY_ID: AKIAIJND7JFDATN473NA
+      AWS_SECRET_ACCESS_KEY: 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
+      
+  roles:
+    - kubeservice
+
+
+
+  
