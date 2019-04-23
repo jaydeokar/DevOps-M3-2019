@@ -1,10 +1,15 @@
 ---
-- hosts: all
+- hosts: checkbox
   remote_user: ubuntu
+  vars:
+        ansible_ssh_private_key_file: /home/ubuntu/DevOps.pem
+        ansible_python_interpreter: /usr/bin/python3
   vars_files: 
     - variables.yml 
   connection: ssh
   environment:
+      AWS_ACCESS_KEY_ID: "AKIAIJND7JFDATN473NA"
+      AWS_SECRET_ACCESS_KEY: "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"
     # KUBE_URL: "{{externalIP}}"
 
   roles:

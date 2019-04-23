@@ -64,7 +64,7 @@
   - name:  get the line of external ip address
     command: kubectl describe services my-service-markdown
     register: serviceReadyOutput
-    until: '"LoadBalancer" in serviceReadyOutput.stdout'       
+    until: '"LoadBalancer Ingress" in serviceReadyOutput.stdout'       
     retries: 50
     delay: 50
 
@@ -85,11 +85,11 @@
 
   - local_action: copy content='{{var_output}}' dest=foo.conf
 
-  - set_fact:
-      version_file: "{{ lookup('file','foo.conf') | from_json }}"
+#  - set_fact:
+ #     version_file: "{{ lookup('file','foo.conf') | from_json }}"
 
-  - debug:
-      var: version_file.externalIP
+ # - debug:
+  #    var: version_file.externalIP
 
 
 
