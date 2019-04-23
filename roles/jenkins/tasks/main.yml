@@ -151,7 +151,7 @@
       packages:
           - nginx
           - nodejs
-          - python-pip
+          - python3-pip
           - libappindicator1 
           - fonts-liberation
     become: true
