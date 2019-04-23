@@ -1,12 +1,14 @@
 ---
 
-  - set_fact:
-      external_url: "{{ lookup('file','foo.conf') | from_json }}"
+#  - set_fact:
+ #     external_url: "{{ lookup('file','foo.conf') | from_json }}"
 
-  - debug:
-      var: external_url.externalIP
- 
-
+ # - debug:
+  #    var: external_url.externalIP
+  - name: copy foo.conf to checkbox server 
+    copy:
+       src: /home/ubuntu/Devops-Milestone3/foo.conf
+       dest: /home/ubuntu/foo.conf
   - name: Update and upgrade apt packages
     become: true
     apt:
@@ -55,7 +57,7 @@
           MAIL_USER="{{MAIL_USER}}"
           MAIL_PASSWORD="{{MAIL_PASSWORD}}"
           MAIL_SMTP="{{MAIL_SMTP}}"
-          KUBE_URL={{external_url.externalIP}}
+#          KUBE_URL={{external_url.externalIP}}
 
   - name: Set all environment variables
     become: true
@@ -69,9 +71,9 @@
           MAIL_USER="{{MAIL_USER}}"
           MAIL_PASSWORD="{{MAIL_PASSWORD}}"
           MAIL_SMTP="{{MAIL_SMTP}}"         
-          KUBE_URL="{{ external_url.externalIP}}"
-  - name: source bash rc file
-    command: source ~/.bashrc
+ #         KUBE_URL="{{ external_url.externalIP}}"
+  #- name: source bash rc file
+   # command: source ~/.bashrc
   - name: Install MongoDB
     become: true
     apt:
