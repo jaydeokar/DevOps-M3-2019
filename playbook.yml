@@ -1,9 +1,0 @@
----
--  import_playbook: jenkins.yml
--  import_playbook: sqlinstall.yml
--  import_playbook: javainstall.yml
--  import_playbook: mavenins.yml
--  import_playbook: itrust.yml
--  import_playbook: staticAnalysis.yml
--  import_playbook: fuzzer.yml
--  import_playbook: staticAnalysis.yml

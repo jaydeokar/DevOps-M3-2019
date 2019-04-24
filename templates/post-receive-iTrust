@@ -1,2 +1,0 @@
-#!/bin/bash
-curl --user jenkins:{{jenkins_password}} -s http://192.168.33.100:8081/job/iTrust%20Build/build?token=abcdefghi
