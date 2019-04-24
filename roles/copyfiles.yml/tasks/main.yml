@@ -1,0 +1,33 @@
+---
+  - name: copy file
+    copy:
+        src: create_itrust.yml
+        dest: /home/ubuntu/create_itrust.yml
+  - name: copy mile3.pem file
+    copy:
+        src: /vagrant/mile3.pem
+        dest: /home/ubuntu/mile3.pem
+  - name: change permission of mile3.pem file
+    file: 
+          path: /home/ubuntu/mile3.pem
+          mode: 0400
+  - name: copy hosts
+    template:
+        src: hosts
+        dest: /home/ubuntu/hosts
+  - name: copy file
+    copy:
+        src: create_kube.yml
+        dest: /home/ubuntu/create_kube.yml
+  - name: copy file
+    copy:
+        src: create_checkbox.yml
+        dest: /home/ubuntu/create_checkbox.yml
+  - name: copy DevOps.pem file
+    copy:
+        src: /vagrant/DevOps.pem
+        dest: /home/ubuntu/DevOps.pem
+  - name: change permission of DevOps.pem file
+    file: 
+          path: /home/ubuntu/DevOps.pem
+          mode: 0400

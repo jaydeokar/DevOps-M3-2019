@@ -1,0 +1,8 @@
+
+[local]
+localhost
+
+[ec2hosts]
+35.165.58.19
+[webserver:vars]
+ansible_python_interpreter=/usr/bin/python3

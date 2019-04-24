@@ -1,0 +1,68 @@
+---
+  - name: create bare folder "jenkins-checkbox"
+    file:
+<<<<<<< HEAD
+      path: /home/vagrant/deploy/jenkins-checkbox.git
+=======
+      path: /home/ubuntu/deploy/jenkins-checkbox.git
+>>>>>>> integrated
+      state: directory
+      mode: 0777
+
+  - name: create bare folder "jenkins-itrust"
+    file:
+<<<<<<< HEAD
+      path: /home/vagrant/deploy/jenkins-itrust.git
+=======
+      path: /home/ubuntu/deploy/jenkins-itrust.git
+>>>>>>> integrated
+      state: directory
+      mode: 0777
+
+  - name: git bare initialize for checkbox
+    become: true
+    command: git init --bare
+    args:
+<<<<<<< HEAD
+      chdir: /home/vagrant/deploy/jenkins-checkbox.git
+=======
+      chdir: /home/ubuntu/deploy/jenkins-checkbox.git
+>>>>>>> integrated
+
+  - name: git bare initialize for itrust
+    become: true
+    command: git init --bare
+    args:
+<<<<<<< HEAD
+      chdir: /home/vagrant/deploy/jenkins-itrust.git
+=======
+      chdir: /home/ubuntu/deploy/jenkins-itrust.git
+>>>>>>> integrated
+  - name: Add remote url for checkbox
+    template:
+      src: config-checkbox
+      remote_src: no
+<<<<<<< HEAD
+      dest: /home/vagrant/checkBoxCode/.git/config
+      owner: vagrant
+      group: vagrant
+=======
+      dest: /home/ubuntu/checkBoxCode/.git/config
+      owner: ubuntu
+      group: ubuntu
+>>>>>>> integrated
+      mode: 0664
+
+  - name: copy the post-receive hook remote repository checkBoxCode
+    become: yes
+    template:
+      src: post-receive-checkbox
+<<<<<<< HEAD
+      dest: /home/vagrant/deploy/jenkins-checkbox.git/hooks/post-receive
+=======
+      dest: /home/ubuntu/deploy/jenkins-checkbox.git/hooks/post-receive
+>>>>>>> integrated
+      owner: root
+      group: root
+      mode: 0777
+
