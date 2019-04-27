@@ -1,9 +1,6 @@
 ---
-<<<<<<< HEAD
-=======
   - name: update and upgrade
     command: sudo apt-get update
->>>>>>> integrated
   - name: install jre8
     apt:
      name: openjdk-8-jre
@@ -140,16 +137,12 @@
      url_password: "{{ adminpwd.stdout }}"
     with_items: "{{ jenkins_plugins }}"
     become: true
-<<<<<<< HEAD
-
-=======
   # - name: add key server 
   #   apt_key:
   #     keyserver: keyserver.ubuntu.com
   #     id: 1655A0AB68576280
   #     state: present
        
->>>>>>> integrated
   - name: Add nodejs repository to PPA list
     apt_repository:
       repo: deb https://deb.nodesource.com/node_11.x xenial main
@@ -165,11 +158,7 @@
       packages:
           - nginx
           - nodejs
-<<<<<<< HEAD
-          - python-pip
-=======
           - python3-pip
->>>>>>> integrated
           - libappindicator1 
           - fonts-liberation
     become: true
@@ -193,13 +182,8 @@
           MONGO_USER="{{MONGO_USER}}"
           MONGO_PASSWORD="{{MONGO_PASSWORD}}"
           MAIL_USER="{{MAIL_USER}}"
-          MAIL_PASSWORD="{{MAIL_PASSWORD}}""
+          MAIL_PASSWORD="{{MAIL_PASSWORD}}"
           MAIL_SMTP="{{MAIL_SMTP}}"
-<<<<<<< HEAD
-=======
-          AWS_ACCESS_KEY_ID="{{AWS_ACCESS_KEY_ID}}"
-          AWS_SECRET_KEY="{{AWS_SECRET_KEY}}"
->>>>>>> integrated
 
   - name: Install MongoDB
     become: true
@@ -235,19 +219,11 @@
   - name: Checkout from git repo
     git:
       repo: "{{REPO}}"
-<<<<<<< HEAD
-      dest: /home/vagrant/checkBoxCode
-
-  - name: Install packages based on package.json.
-    npm:
-        path: /home/vagrant/checkBoxCode/server-side/site
-=======
       dest: /home/ubuntu/checkBoxCode
 
   - name: Install packages based on package.json.
     npm:
         path: /home/ubuntu/checkBoxCode/server-side/site
->>>>>>> integrated
 
 #  - name: checking if folder exists
  #   stat: path=/home/vagrant/jobs/checkBox.yml

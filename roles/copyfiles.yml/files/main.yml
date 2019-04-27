@@ -1,7 +1,0 @@
----
-- import_playbook: create_itrust.yml
-- import_playbook: /home/ubuntu/featureflag/jenkins.yml
-- import_playbook: create_kube.yml
-- import_playbook: /home/ubuntu/Devops-Milestone3/kube.yml
-- import_playbook: create_checkbox.yml
-- import_playbook: /home/ubuntu/Devops-Milestone3/deployCheckbox.yml

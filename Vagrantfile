@@ -34,9 +34,9 @@ Vagrant.configure("2") do |config|
   # using a specific IP.
 
    config.vm.network "private_network", ip: "192.168.33.10"
-   config.vm.define :control do |machine|
-    machine.vm.synced_folder 'web-srv/.vagrant/machines/', '/ssh', mount_options: ["dmode=775,fmode=600"]
-   end
+#   config.vm.define :control do |machine|
+ #   machine.vm.synced_folder 'web-srv/.vagrant/machines/', '/ssh', mount_options: ["dmode=775,fmode=600"]
+  # end
 
 
   # Create a public network, which generally matched to bridged network.

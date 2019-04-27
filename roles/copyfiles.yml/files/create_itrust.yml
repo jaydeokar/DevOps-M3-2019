@@ -2,15 +2,17 @@
   - name: Provision an EC2 Instance
     hosts: local
     connection: local
+    become: true
+    become_user: ubuntu
     gather_facts: False
     tags: provisioning
     # Necessary Variables for creating/provisioning the EC2 Instance
     vars:
       instance_type: t2.micro
       security_group: ansible # Change the security group name here
-      image:    ami-08692d171e3cf02d6 #ami-005bdb005fb00e791 # This is an AMI i created myself
-      keypair: mile3 # This is one of my keys that i already have in AWS
-      region: us-west-2 # Change the Region
+      image:  ami-0565af6e282977273 #ami-08692d171e3cf02d6 #ami-005bdb005fb00e791 # This is an AMI i created myself
+      keypair: devops2 # This is one of my keys that i already have in AWS
+      region: us-east-1 # Change the Region
       count: 1
 
     # Task that will be used to Launch/Create an EC2 Instance

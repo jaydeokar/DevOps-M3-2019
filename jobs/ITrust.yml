@@ -6,16 +6,6 @@
     scm:
     - git:
         skip-tag: false
-<<<<<<< HEAD
-        url: /home/vagrant/iTrust2-v4/ 
-    auth-token: abcdefghi
-    builders:
-      - shell: |
-          # cd /home/vagrant/iTrust2-v4/iTrust2
-          sudo cp /home/vagrant/iTrust2-v4/iTrust2/src/main/java/email.properties iTrust2/src/main/java/email.properties
-          cd iTrust2 &&  mvn -f pom-data.xml process-test-classes
-          mvn clean test verify checkstyle:checkstyle findbugs:findbugs
-=======
         url: /home/ubuntu/iTrust2-v4/ 
     auth-token: abcdefghi
     #properties:
@@ -31,7 +21,6 @@
           mvn clean test verify checkstyle:checkstyle findbugs:findbugs
           cd /home/ubuntu && sudo ansible-playbook -i hosts ec2basic.yml
           
->>>>>>> integrated
         #   cp  -r ./target/surefire-reports/  /home/vagrant/reports/surefire-reports.$(date +%F_%R)
 
     publishers:
@@ -67,18 +56,10 @@
         exclusion-pattern: '**/*Test*.class'
         targets:
         - branch:
-<<<<<<< HEAD
-            healthy: 95
-            unhealthy: 85
-        - instruction:
-            healthy: 95
-            unhealthy: 80
-=======
             healthy: 60
             unhealthy: 70
         - instruction:
             healthy: 60
             unhealthy: 70
->>>>>>> integrated
             
             

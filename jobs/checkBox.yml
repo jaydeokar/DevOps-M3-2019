@@ -6,14 +6,15 @@
     scm:
     - git:
         skip-tag: false
-<<<<<<< HEAD
-        url: /home/vagrant/checkBoxCode/
-=======
         url: /home/ubuntu/checkBoxCode/
->>>>>>> integrated
     auth-token: abcdefghi
     builders:
       - shell: |
           cd server-side/site
           npm install
           npm test
+          cd /home/ubuntu
+          sudo ansible-playbook -i hosts create_kube.yml
+          sudo ansible-playbook -i hosts deployCheckbox/kube.yml
+          sudo ansible-playbook -i hosts create_checkbox.yml
+          sudo ansible-playbook -i hosts deployCheckbox/deployCheckbox.yml

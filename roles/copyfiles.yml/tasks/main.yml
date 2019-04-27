@@ -1,33 +1,55 @@
 ---
-  - name: copy file
+  - name: copy create_itrust
     copy:
         src: create_itrust.yml
         dest: /home/ubuntu/create_itrust.yml
-  - name: copy mile3.pem file
+  - name: copy variables.yml file
     copy:
-        src: /vagrant/mile3.pem
-        dest: /home/ubuntu/mile3.pem
+        src: variables.yml
+        dest: /home/ubuntu/variables.yml
+  - name: copy pem file
+    copy:
+        src: "/vagrant/{{ pem_file_name }}"
+        dest: "/home/ubuntu/{{ pem_file_name }}"
   - name: change permission of mile3.pem file
     file: 
-          path: /home/ubuntu/mile3.pem
+          path: "/home/ubuntu/{{ pem_file_name }}"
           mode: 0400
   - name: copy hosts
-    template:
+    copy:
         src: hosts
         dest: /home/ubuntu/hosts
-  - name: copy file
+  - name: copy create_kube
     copy:
         src: create_kube.yml
         dest: /home/ubuntu/create_kube.yml
-  - name: copy file
+  - name: copy create_checkbox
     copy:
         src: create_checkbox.yml
         dest: /home/ubuntu/create_checkbox.yml
-  - name: copy DevOps.pem file
+  # - name: copy DevOps.pem file
+  #   copy:
+  #       src: "/vagrant/{{ pem_file_name }}"
+  #       dest: "/home/ubuntu/{{ pem_file_name }}"
+  # - name: change permission of DevOps.pem file
+  #   file: 
+  #         path: "/home/ubuntu/{{ pem_file_name }}"
+  #         mode: 0400
+  - name: create .aws folder
+    file:
+       path: /home/ubuntu/.aws
+       state: directory
+
+    #command: mkdir .aws
+  - name: copy credentials template
+    copy:   
+       src: credentials
+       dest: /home/ubuntu/.aws/credentials
+  - name: copy foo.conf template file
     copy:
-        src: /vagrant/DevOps.pem
-        dest: /home/ubuntu/DevOps.pem
-  - name: change permission of DevOps.pem file
-    file: 
-          path: /home/ubuntu/DevOps.pem
-          mode: 0400
+        src: foo.conf
+        dest: "/home/ubuntu/foo.conf"
+  - name: copy crdential_copy.yml template file
+    copy:
+        src: credential_copy.yml
+        dest: "/home/ubuntu/credential_copy.yml"

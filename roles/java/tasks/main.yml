@@ -16,11 +16,6 @@
       become: yes
       apt: name={{item}} state=latest
       with_items:
-<<<<<<< HEAD
-        - oracle-java8-installer
-        - ca-certificates
-        - oracle-java8-set-default
-=======
         #- oracle-java8-installer
         - openjdk-8-jdk 
         - ca-certificates
@@ -45,4 +40,3 @@
     # - name: Update apt-get
     #   action: apt update_cache=yes
     #   become: true
->>>>>>> integrated

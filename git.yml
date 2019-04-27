@@ -14,12 +14,13 @@
 
 
 
-  - name: clone itrust
+  - name: clone featureflag and deploycheckbox
     sudo: no
-    hosts: webserver
+    hosts: ec2hosts
     remote_user: ubuntu
+    vars_files: variables.yml
     vars:
-        ansible_ssh_private_key_file: /vagrant/mile3.pem
+        ansible_ssh_private_key_file: "/vagrant/{{ pem_file_name }}"
     connection: ssh
     tasks:
       - name: git clone featureflag
@@ -27,6 +28,6 @@
         #hosts: webserver
         git: repo=https://github.com/jaydeokar/featureflag dest=/home/ubuntu/featureflag
         ignore_errors: yes
-      -  name: git clone checkbox prod code
-         git: repo=https://github.com/JARVIS1093/deployCheckbox dest=/home/ubuntu/deployCheckbox
+      - name: git clone checkbox prod code
+        git: repo=https://github.com/JARVIS1093/deployCheckbox dest=/home/ubuntu/deployCheckbox
         ignore_errors: yes

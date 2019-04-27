@@ -1,6 +1,4 @@
 ---
-<<<<<<< HEAD
-=======
 #-  import_playbook: ec2basic.yml
 #-  import_playbook: jenkins.yml
 #-  import_playbook: sqlinstall.yml
@@ -14,19 +12,13 @@
 #-  import_playbook: fuzzer.yml
 #-  import_playbook: staticAnalysis.yml
 
-#-  import_playbook: webserver.yml
->>>>>>> integrated
+-  import_playbook: webserver.yml
 -  import_playbook: jenkins.yml
 -  import_playbook: sqlinstall.yml
 -  import_playbook: javainstall.yml
 -  import_playbook: mavenins.yml
 -  import_playbook: itrust.yml
-<<<<<<< HEAD
--  import_playbook: fuzzer.yml
--  import_playbook: staticAnalysis.yml
-=======
 -  import_playbook: copyfiles.yml
 -  import_playbook: ansibleins.yml
 -  import_playbook: git.yml
 
->>>>>>> integrated

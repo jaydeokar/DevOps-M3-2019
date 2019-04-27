@@ -1,0 +1,5 @@
+---
+- import_playbook: create_kube.yml
+- import_playbook: /home/ubuntu/deployCheckbox/kube.yml
+- import_playbook: create_checkbox.yml
+- import_playbook: /home/ubuntu/deployCheckbox/deployCheckbox.yml

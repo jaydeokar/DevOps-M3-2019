@@ -3,39 +3,17 @@
     - name: git clone iTrust
       git: 
         repo: "{{itrust_repo}}"
-<<<<<<< HEAD
-        dest: /home/vagrant/iTrust2-v4
-=======
         dest: /home/ubuntu/iTrust2-v4
->>>>>>> integrated
       ignore_errors: yes
 
     - name: copy db.properties
       template:       
          src: /vagrant/roles/itrust/template/db.properties.template
-<<<<<<< HEAD
-         dest: /home/vagrant/iTrust2-v4/iTrust2/src/main/java/db.properties
-=======
          dest: /home/ubuntu/iTrust2-v4/iTrust2/src/main/java/db.properties
->>>>>>> integrated
 
     - name: copy email.properties
       template:
          src: /vagrant/roles/itrust/template/email.properties.template
-<<<<<<< HEAD
-         dest: /home/vagrant/iTrust2-v4/iTrust2/src/main/java/email.properties
- #        remote_src: yes
-    - name: update mysql root password for all root accounts
-      sudo: yes
-      mysql_user:
-        name: "{{mysql_user}}"
-        host: all
-        password: ""
-        login_user: "{{mysql_user}}"
-        login_password: ""
-        check_implicit_admin: yes
-        priv: "*.*:ALL,GRANT"
-=======
          dest: /home/ubuntu/iTrust2-v4/iTrust2/src/main/java/email.properties
  #        remote_src: yes
     # - name: update mysql root password for all root accounts
@@ -48,33 +26,22 @@
     #     login_password: ""
     #     check_implicit_admin: yes
     #     priv: "*.*:ALL,GRANT"
->>>>>>> integrated
        
 
     - name: Add remote url for itrust
       template:
         src: config-itrust
         remote_src: no
-<<<<<<< HEAD
-        dest: /home/vagrant/iTrust2-v4/.git/config
-        owner: vagrant
-        group: vagrant
-=======
         dest: /home/ubuntu/iTrust2-v4/.git/config
         owner: ubuntu
         group: ubuntu
->>>>>>> integrated
         mode: 0664
  
     - name: copy the post-receive hook remote repository itrust
       become: yes
       template:
         src: post-receive-iTrust
-<<<<<<< HEAD
-        dest: /home/vagrant/deploy/jenkins-itrust.git/hooks/post-receive
-=======
         dest: /home/ubuntu/deploy/jenkins-itrust.git/hooks/post-receive
->>>>>>> integrated
 #        remote_src: yes
         owner: root
         group: root

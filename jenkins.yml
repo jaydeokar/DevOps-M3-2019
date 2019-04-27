@@ -1,15 +1,12 @@
 ---
-<<<<<<< HEAD
-- hosts: all
-=======
 - hosts: ec2hosts
   remote_user: ubuntu
+  vars_files: variables.yml
   vars:
-        ansible_ssh_private_key_file: /vagrant/mile3.pem
+        ansible_ssh_private_key_file: "/vagrant/{{ pem_file_name }}"
         ansible_python_interpreter: /usr/bin/python3
   connection: ssh
->>>>>>> integrated
-  vars_files: variables.yml
+  
   roles:
     - jenkins
     - create_jobs
