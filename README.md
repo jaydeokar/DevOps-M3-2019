@@ -13,26 +13,26 @@ Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Ku
 
 **Deployment Components**
 Following is the architecture that we have created :
-We have one configuration server imlemented on Vagrant, Jenkins server running on an EC2 instance, Itrust Production server, Checkbox Production server deployed on an EC2 server . Also, for Infrastucture upgrade we have one Kubernetes cluster running on an EC2 instance with 2 slaves and one master.
+We have one configuration server imlemented on Vagrant, Jenkins server running on an EC2 instance, Itrust Production server, Checkbox Production server deployed on an EC2 server. Also, for Infrastructure upgrade we have one Kubernetes cluster running on an EC2 instance with 2 slaves and one master.
 
 **[DIAGRAM]**
 
-**Deployment:** Deploy iTrust and checkbox.io to a production environment. Create a git hook on your jenkins server that will trigger a deployment when doing a git push to "production". The deployment needs to occur on actual remote machine (e.g. AWS, droplet, VCL), and not a local VM. The deployment should provision and configure the production environment using scripts+ansible.
+**Deployment:** Deploy iTrust and checkbox.io to a production environment. Create a git hook on your jenkins server that will trigger a deployment when doing a git push to "production". The deployment needs to occur on actual remote machine (e.g. AWS, droplet, VCL), and not a local VM. The deployment should provision and configure the production environment using scripts + ansible.
 
 
 **Implementation:** 
 
 1. Update the variables in 'variables.yml' file with email password, aws pem file and your access tokens.
-2. Run the playbook with sudo 'playbook.yml' from configuration server. This would create and set up a remote instance for Jenkins server with both ITrust and  Checkbox applications.
-3. Once the runnning of playbook has completed, login to Jenkins server
+2. Run the playbook with sudo 'playbook.yml' from configuration server. This would create and set up a remote instance for Jenkins server with both ITrust and Checkbox applications installed and configured.
+3. Once the playbook runs successfully, login to the Jenkins server.
 4. cd CheckBoxCode/
-5. Create a new file , add, commit and push to the repository. This would trigger a build on Jenkins server , post which the deployment at Production Checkbox Server would take place if the build passes successfully)
+5. Create a new file, add, commit and push to the repository. This would trigger a build on Jenkins server, post which the deployment at Production Checkbox Server would take place if the build passes successfully.
 6. cd iTrustv-4/
-7. Create a new file , add, commit and push to the repository. This would trigger a build on Jenkins server , post which the deployment at Production Itrust Server would take place if the build passes successfully)
+7. Create a new file, add, commit and push to the repository. This would trigger a build on Jenkins server, post which the deployment at Production Itrust Server would take place if the build passes successfully.
 
 
 
-**Feature Flags:** Create a configuration server for managing feature flags (using redis) that can be used to turn off/on features on iTrust in production. Pick one feature to demo in screencast.
+**Feature Flags:** Create a configuration server for managing feature flags (using redis) that can be used to turn off/on features on iTrust application in production. Pick one feature to demo in screencast.
 
 **Implementation:**
 
@@ -53,12 +53,12 @@ We have one configuration server imlemented on Vagrant, Jenkins server running o
 Extract a new microservice for rendering markdown => html in checkbox.io. Deploy several instances of microservice (at least  3). Demonstrate service availabilty after turning off nodes. You may use a cluster such as nomad, kubernetes, or implement your own strategy. 
 
 **Implementation:**
-As shown above in the architecture diagram, we have created a Kubernetes cluster with 3 microservice instances each running 'markdown' service of Checkbox. The service availability would be ensured by the Kubernetes cluster. 
+As shown above in the architecture diagram, we have created a Kubernetes cluster with 3 microservice instances (pods) each running 'markdown' service of Checkbox. The service availability would be ensured by the Kubernetes cluster. 
 You can use the following commands to check the pods: 
 kubectl get pods
 **[SCREENSHOT]**
 
-As you can see from the screenshot above, once one of the pod have been deleted using 'kubectl delete pod <pod name>' , the cluster would ensure service availability by terminating the specified pod and creating another one on its place seamlessly. 
+As you can see from the screenshot above, if we delete one of the pods using 'kubectl delete pod <pod name>', the cluster would ensure service availability by terminating the specified pod and creating another one on its place seamlessly. 
  
  **Special Component**
  
@@ -66,17 +66,17 @@ As you can see from the screenshot above, once one of the pod have been deleted 
  
  Why Monitoring?
  
- Monitoring helps you observe response times, availability, resource consumption levels, performance, as well as predict potential   issues. When you deploy and manage numerous of instances in cloud, you want them to be monitored regularly and manage them through automation. Monitoring also helps to identity which servers are the most/least used with which we can Scale In/Out.
+ Monitoring helps you observe response times, availability, resource consumption levels, performance, as well as predict potential   issues. When you deploy and manage numerous of instances in cloud, you want them to be monitored regularly and manage their monitoring  through automation. Monitoring also helps to identity which servers are the most/least used with which we can Scale In/Out.
  
  **Tools Used:**  Grafana ( Visualization ) and AWS CloudWatch ( Monitoring )
  
  **Grafana**
  
-Grafana is a Visualization and a monitoring tool used to plot various metrics on virtual machines running remotely on a data centre or Cloud. In this milestone, we have used the opensource free version of Grafana to plot dashboards, visualize metrics that are being received from CloudWatch. The reason for using Cloudwatch is, it can monitor all the instances in any VPCs and Grafana is used to plot a unified dashboard of metrics from every application server and configuration server deployed. The Grafana application is installed and configured on jenkins server on the port 3000. The dashboard can be viewed at http://<public-ip>>:3000.
+Grafana is a Visualization and a monitoring tool used to plot various metrics on virtual machines running remotely on a data centre or Cloud. For this special milestone, we have used the opensource free version of Grafana to plot dashboards, visualize metrics that are being received from CloudWatch. The reason for using Cloudwatch is, it can monitor all the instances in any VPCs and Grafana is used to plot a unified dashboard of metrics from every application server and configuration server deployed and running. The Grafana application is installed and configured on the port 3000. The dashboard can be viewed at http://<public-ip of grafana server>:3000.
 
 **AWS CloudWatch**
 
-CloudWatch is a monitoring and management  PaaS offered by AWS.  Here, we have used the free tier of AWS CloudWatch to monitor the servers that are being deployed on AWS. Every metric is polled with a configurable interval of 15s.
+CloudWatch is a monitoring and management PaaS offered by AWS.  Here, we have used the free tier of AWS CloudWatch to monitor the servers that are being deployed on AWS. Every metric is polled with a configurable interval of 15s.
 
 **Metrics Monitored:**
 
