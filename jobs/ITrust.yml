@@ -19,7 +19,7 @@
           sudo cp /home/ubuntu/iTrust2-v4/iTrust2/src/main/java/email.properties iTrust2/src/main/java/email.properties
           cd iTrust2 &&  mvn -f pom-data.xml process-test-classes
           mvn clean test verify checkstyle:checkstyle findbugs:findbugs
-          cd /home/ubuntu && sudo ansible-playbook -i hosts ec2basic.yml
+          cd /home/ubuntu && sudo ansible-playbook -i hosts itrust_main.yml
           
         #   cp  -r ./target/surefire-reports/  /home/vagrant/reports/surefire-reports.$(date +%F_%R)
 

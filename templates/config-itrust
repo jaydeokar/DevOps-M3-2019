@@ -5,15 +5,11 @@
         bare = false
         logallrefupdates = true
 [remote "origin"]
-        url = https://github.com/gautamworah96/iTrust.git
+        url = https://github.com/jaydeokar/iTrust2.git
         fetch = +refs/heads/*:refs/remotes/origin/*
 [branch "master"]
         remote = origin
         merge = refs/heads/master
 [remote "MyRemoteitrust"]
-<<<<<<< HEAD
-        url = /home/vagrant/deploy/jenkins-itrust.git
-=======
         url = /home/ubuntu/deploy/jenkins-itrust.git
->>>>>>> integrated
         fetch = +refs/heads/*:refs/remotes/MyRemoteitrust/*

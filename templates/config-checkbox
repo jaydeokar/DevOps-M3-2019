@@ -10,9 +10,5 @@
         remote = origin
         merge = refs/heads/master
 [remote "MyRemoteCheckBox"]
-<<<<<<< HEAD
-        url = /home/vagrant/deploy/jenkins-checkbox.git
-=======
         url = /home/ubuntu/deploy/jenkins-checkbox.git
->>>>>>> integrated
         fetch = +refs/heads/*:refs/remotes/MyRemoteCheckBox/*

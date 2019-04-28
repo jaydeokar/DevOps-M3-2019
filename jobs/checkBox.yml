@@ -14,7 +14,5 @@
           npm install
           npm test
           cd /home/ubuntu
-          sudo ansible-playbook -i hosts create_kube.yml
-          sudo ansible-playbook -i hosts deployCheckbox/kube.yml
-          sudo ansible-playbook -i hosts create_checkbox.yml
-          sudo ansible-playbook -i hosts deployCheckbox/deployCheckbox.yml
+          sudo ansible-playbook -i hosts checkbox_main.yml
+         

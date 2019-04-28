@@ -3,6 +3,6 @@
 localhost
 
 [ec2hosts]
-52.90.229.238
+
 [webserver:vars]
 ansible_python_interpreter=/usr/bin/python3
