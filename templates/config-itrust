@@ -5,7 +5,7 @@
         bare = false
         logallrefupdates = true
 [remote "origin"]
-        url = https://github.com/jaydeokar/iTrust2.git
+        url = https://github.com/jaydeokar/itrustnew.git
         fetch = +refs/heads/*:refs/remotes/origin/*
 [branch "master"]
         remote = origin
