@@ -1,4 +1,4 @@
-# DevOps - Milestone 3: Deploymemt,Infrastructure and Special Component
+# DevOps - Milestone 3: Deploymemt, Infrastructure and Special Component
 
 
 **Team Members**
