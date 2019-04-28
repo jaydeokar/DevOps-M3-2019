@@ -31,13 +31,14 @@
       name: jenkins
       state: restarted
 
-  - name: Wait for jenkins to come up
-    uri:
-       url: "http:/{{CURL}}login?from=%2F"
-       status_code: 200
-    register: result
-    until: result.status == 200
-    retries: 20
-    delay: 5
+  # - name: Wait for jenkins to come up
+  #   uri:
+  #      url: "http://{{CURL}}login?from=%2F"
+  #      status_code: 200
+  #   register: result
+  #   until: result.status == 200
+  #   retries: 20
+  #   delay: 5
 
-
+  - pause:
+      minutes: 2

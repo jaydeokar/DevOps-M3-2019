@@ -53,3 +53,17 @@
     copy:
         src: credential_copy.yml
         dest: "/home/ubuntu/credential_copy.yml"
+  - name: copy checkbox_main.yml template file
+    copy:
+        src: checkbox_main.yml
+        dest: "/home/ubuntu/checkbox_main.yml"
+  - name: copy itrust_main.yml template file
+    copy:
+        src: itrust_main.yml
+        dest: "/home/ubuntu/itrust_main.yml"
+  - name: copy ansible.cfg template file
+    copy:
+        src: ansible.cfg
+        dest: "/home/ubuntu/ansible.cfg"
+
+  
