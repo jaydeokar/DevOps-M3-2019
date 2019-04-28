@@ -23,7 +23,7 @@ We have one configuration server imlemented on Vagrant, Jenkins server running o
 **Implementation:** 
 
 1. Update the variables in 'variables.yml' file with email password, aws pem file and your access tokens.
-2. Run the playbook 'playbook.yml' from configuration server. This would create and set up a remote instance for Jenkins server with both ITrust and  Checkbox applications.
+2. Run the playbook with sudo 'playbook.yml' from configuration server. This would create and set up a remote instance for Jenkins server with both ITrust and  Checkbox applications.
 3. Once the runnning of playbook has completed, login to Jenkins server
 4. cd CheckBoxCode/
 5. Create a new file , add, commit and push to the repository. This would trigger a build on Jenkins server , post which the deployment at Production Checkbox Server would take place if the build passes successfully)
