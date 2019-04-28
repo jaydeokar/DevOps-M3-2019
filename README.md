@@ -47,7 +47,7 @@ We have one configuration server imlemented on Vagrant, Jenkins server running o
     "set admin/drugs 'True'" or  "set admin/drugs 'False'"
  Refresh the 'Manage Drugs' page , you would see the feature turning on and off. 
 
-**Infrastructure Components ** 
+**Infrastructure Components** 
 
 **Infrastructure Upgrade Make improvements to the infrastructure of checkbox.io.**
 Extract a new microservice for rendering markdown => html in checkbox.io. Deploy several instances of microservice (at least  3). Demonstrate service availabilty after turning off nodes. You may use a cluster such as nomad, kubernetes, or implement your own strategy. 
