@@ -9,7 +9,7 @@ MONGO_USER: "admin_mongo_user"
 MAIL_SMTP: "smtp.gmail.com"
 REPO: "https://github.com/gautamworah96/checkbox.io.git"
 URL: "/192.168.33.100:8080/"
-CURL: "/18.206.183.211:8081/" 
+CURL: "3.85.110.117:8081/"
 jenkins_password: userPasswordDemo
 jenkins_plugins:
           - token-macro
