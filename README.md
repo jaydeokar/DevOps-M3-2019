@@ -11,9 +11,6 @@ Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Ku
 3. Infrastructure Upgrades (microservices+cluster): Gautam Worah
 4. Something special: Suraj Kumar K P
 
-**Implementation:**
-
-
 **Deployment Components**
 Following is the architecture that we have created :
 We have one configuration server imlemented on Vagrant, Jenkins server running on an EC2 instance, Itrust Production server, Checkbox Production server deployed on an EC2 server . Also, for Infrastucture upgrade we have one Kubernetes cluster running on an EC2 instance with 2 slaves and one master.
@@ -51,6 +48,7 @@ We have one configuration server imlemented on Vagrant, Jenkins server running o
  Refresh the 'Manage Drugs' page , you would see the feature turning on and off. 
 
 **Infrastructure Components ** 
+
 **Infrastructure Upgrade Make improvements to the infrastructure of checkbox.io.**
 Extract a new microservice for rendering markdown => html in checkbox.io. Deploy several instances of microservice (at least  3). Demonstrate service availabilty after turning off nodes. You may use a cluster such as nomad, kubernetes, or implement your own strategy. 
 
