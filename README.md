@@ -1,4 +1,4 @@
-# DevOps-Milestone3:Deploymemt,Infrastructure and Special Miletsone
+# DevOps - Milestone 3: Deploymemt,Infrastructure and Special Component
 
 
 **Team Members**
@@ -59,6 +59,36 @@ kubectl get pods
 **[SCREENSHOT]**
 
 As you can see from the screenshot above, once one of the pod have been deleted using 'kubectl delete pod <pod name>' , the cluster would ensure service availability by terminating the specified pod and creating another one on its place seamlessly. 
+ 
+ **Special Component**
+ 
+ **Monitoring/Analysis**
+ 
+ Why Monitoring?
+ 
+ Monitoring helps you observe response times, availability, resource consumption levels, performance, as well as predict potential   issues. When you deploy and manage numerous of instances in cloud, you want them to be monitored regularly and manage them through automation. Monitoring also helps to identity which servers are the most/least used with which we can Scale In/Out.
+ 
+ **Tools Used:**  Grafana ( Visualization ) and AWS CloudWatch ( Monitoring )
+ 
+ **Grafana**
+ 
+Grafana is a Visualization and a monitoring tool used to plot various metrics on virtual machines running remotely on a data centre or Cloud. In this milestone, we have used the opensource free version of Grafana to plot dashboards, visualize metrics that are being received from CloudWatch. The reason for using Cloudwatch is, it can monitor all the instances in any VPCs and Grafana is used to plot a unified dashboard of metrics from every application server and configuration server deployed.
+
+**AWS CloudWatch**
+
+CloudWatch is a monitoring and management  PaaS offered by AWS.  Here, we have used the free tier of AWS CloudWatch to monitor the servers that are being deployed on AWS. Every metric is polled with a configurable interval of 15s.
+
+**Metrics Monitored:**
+
+1)	**Average CPU Utilization:** CPU utilization is the proportion of the total available processor cycles that are consumed by each process.  It signifies how under/over utilised the server is by running/idle/waiting processes.  
+
+2) **NetworkOut:** Average network egress traffic on a server. It is measured in MB/s. It signifies the network load on the server and gives us an understanding on how much traffic is flowing  out of the server. 
+
+3) **StatusCheckedFailed_Instance:**   As defined by AWS, the value is 0 if the instance is passing the status checks and 1 if the status checks fails. During a status check, the health of the server is continuously polled by sending an ARP request. This metric indicates whether the server is online or offline.
+
+
+
+
  
  
 
