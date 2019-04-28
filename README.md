@@ -72,7 +72,7 @@ As you can see from the screenshot above, once one of the pod have been deleted 
  
  **Grafana**
  
-Grafana is a Visualization and a monitoring tool used to plot various metrics on virtual machines running remotely on a data centre or Cloud. In this milestone, we have used the opensource free version of Grafana to plot dashboards, visualize metrics that are being received from CloudWatch. The reason for using Cloudwatch is, it can monitor all the instances in any VPCs and Grafana is used to plot a unified dashboard of metrics from every application server and configuration server deployed.
+Grafana is a Visualization and a monitoring tool used to plot various metrics on virtual machines running remotely on a data centre or Cloud. In this milestone, we have used the opensource free version of Grafana to plot dashboards, visualize metrics that are being received from CloudWatch. The reason for using Cloudwatch is, it can monitor all the instances in any VPCs and Grafana is used to plot a unified dashboard of metrics from every application server and configuration server deployed. The Grafana application is installed and configured on jenkins server on the port 3000. The dashboard can be viewed at http://<public-ip>>:3000.
 
 **AWS CloudWatch**
 
