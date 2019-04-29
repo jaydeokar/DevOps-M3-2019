@@ -57,7 +57,7 @@ Extract a new microservice for rendering markdown => html in checkbox.io. Deploy
 As shown above in the architecture diagram, we have created a Kubernetes cluster with 3 microservice instances (pods) each running 'markdown' service of Checkbox. The service availability would be ensured by the Kubernetes cluster. 
 You can use the following commands to check the pods: 
 kubectl get pods
-![image](https://github.ncsu.edu/bdwived/Devops-Milestone3/blob/master/third.jpg)
+![image](https://github.ncsu.edu/bdwived/Devops-Milestone3/blob/master/third.png)
 
 As you can see from the screenshot above, if we delete one of the pods using 'kubectl delete pod <pod name>', the cluster would ensure service availability by terminating the specified pod and creating another one on its place seamlessly. 
  
