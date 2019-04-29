@@ -74,6 +74,10 @@ Vagrant.configure("2") do |config|
      apt-get install software-properties-common
      apt-add-repository --yes --update ppa:ansible/ansible
      apt-get install -y ansible
+     apt-get install -y python3-pip
+     apt-get install -y python-pip
+     pip install boto3 
+     pip install boto
    SHELL
 end
 
