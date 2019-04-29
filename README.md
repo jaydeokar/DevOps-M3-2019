@@ -22,6 +22,11 @@ We have one configuration server imlemented on Vagrant, Jenkins server running o
 
 
 **Implementation:** 
+Note: Create .aws/credentials in the configuration server with folowing contents:
+   [default]
+   aws_access_key_id = <your access key id>
+   aws_secret_access_key = < your secret key>
+
 
 1. Update the variables in 'variables.yml' file with email password, aws pem file and your access tokens.
 2. Run the playbook with sudo 'playbook.yml' from configuration server. This would create and set up a remote instance for Jenkins server with both ITrust and Checkbox applications installed and configured.
