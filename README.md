@@ -23,10 +23,11 @@ We have one configuration server imlemented on Vagrant, Jenkins server running o
 
 **Implementation:** 
 Note: Create .aws/credentials in the configuration server with folowing contents:
+   ```
    [default]
    aws_access_key_id = <your access key id>
    aws_secret_access_key = < your secret key>
-
+   ```
 
 1. Update the variables in 'variables.yml' file with email password, aws pem file and your access tokens.
 2. Run the playbook with sudo 'playbook.yml' from configuration server. This would create and set up a remote instance for Jenkins server with both ITrust and Checkbox applications installed and configured.
@@ -38,8 +39,7 @@ Note: Create .aws/credentials in the configuration server with folowing contents
 
 
 
-**Feature Flags:** Create a configuration server for managing feature flags (using redis) that can be used to turn off/on features on iTrust application in production. Pick one feature to demo in screencast.
-
+**Feature Flags:** Create a configuration server for managing feature flags (using redis) that can be used to turn off/on features on iTrust application in production. Pick one feature to demo in screencast
 **Implementation:**
 
 1. Open your browser and open the URL <IP of Itrust production server>:8080/iTrust2. This would open the Itrust web-page
