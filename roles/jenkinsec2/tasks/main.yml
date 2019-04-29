@@ -1,20 +1,5 @@
 ---
-  # - name: Provision an EC2 Instance
-  #   hosts: local
-  #   connection: local
-  #   gather_facts: False
-  #   tags: provisioning
-  #   # Necessary Variables for creating/provisioning the EC2 Instance
-  #   vars:
-  #     instance_type: t2.micro
-  #     security_group: ansible # Change the security group name here
-  #     image:    ami-08692d171e3cf02d6 #ami-005bdb005fb00e791 # This is an AMI i created myself
-  #     keypair: mile3 # This is one of my keys that i already have in AWS
-  #     region: us-west-2 # Change the Region
-  #     count: 1
-
-  #   # Task that will be used to Launch/Create an EC2 Instance
-  #   tasks:
+ 
 
       - name: Create a security group
         local_action: 
@@ -66,13 +51,7 @@
       - debug:
            msg: "{{ ec2.instances }}"
 
-      # - name: Add the newly created EC2 instance(s) to the local host group (located inside the directory)
-      #   local_action: lineinfile 
-      #                 dest="./hosts" 
-      #                 regexp= '^(.*)CURL(.*)$' 
-      #                 line=  {{ item.public_ip }}" 
 
-      #   with_items: "{{ ec2.instances }}"
       - name: Add all instance public IPs to host group
         add_host: hostname={{ item.public_ip }} groups=ec2hosts
         with_items: "{{ ec2.instances }}"
@@ -80,7 +59,7 @@
         lineinfile:
                 dest: /vagrant/variables.yml 
                 regexp: '^(.*)CURL: (.*)$' 
-                line: 'CURL: "{{ item.public_ip }}:8081/"'
+                line: 'CURL: "{{ item.public_ip }}:8081"'
                 backrefs: yes
         with_items: "{{ ec2.instances }}"
 
@@ -97,17 +76,4 @@
         args:
           tags:
             Name: jenkins
-  # - name: clone itrust
-  #   sudo: no
-  #   hosts: ec2hosts
-  #   remote_user: ubuntu
-  #   vars:
-  #       ansible_ssh_private_key_file: /vagrant/mile3.pem
-  #       ansible_python_interpreter: /usr/bin/python3
-  #   connection: ssh
-  #   tasks:
-  #     - name: git clone itrust
-  #       #`sudo: yes
-  #       #hosts: webserver
-  #       git: repo=https://github.com/gautamworah96/iTrust dest=/home/ubuntu/iTrust2-v4
-  #       ignore_errors: yes
+  

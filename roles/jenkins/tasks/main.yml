@@ -47,9 +47,7 @@
     until: adminpwd['stdout'] != ''
     register: adminpwd
 
-  #- name: Wait for jenkins to come up
-   # pause: 
-    #   minutes: 2
+ 
   - name: change port
     become: true
     lineinfile:
@@ -86,16 +84,7 @@
     retries: 10
     delay: 100
 
-    # until: jenkinsUserCreation['stdout'] != ''
-    # register: jenkinsUserCreation
-
-#  - name: Set timezone to EST
- #   lineinfile: 
-  #    dest: /etc/timezone 
-   #   regexp: ".*" 
-    #  line: "EST"
-  #  become: yes
-
+    
   - name: Disable CSRF
     jenkins_script:
      script: |
@@ -137,12 +126,7 @@
      url_password: "{{ adminpwd.stdout }}"
     with_items: "{{ jenkins_plugins }}"
     become: true
-  # - name: add key server 
-  #   apt_key:
-  #     keyserver: keyserver.ubuntu.com
-  #     id: 1655A0AB68576280
-  #     state: present
-       
+  
   - name: Add nodejs repository to PPA list
     apt_repository:
       repo: deb https://deb.nodesource.com/node_11.x xenial main
@@ -163,10 +147,7 @@
           - fonts-liberation
     become: true
 
- # - name: Install the headless chrome package
-  #  apt:
-   #   deb: https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
-    #become: true
+ 
 
   - name: Install Jenkins Job builder
     pip:
@@ -225,89 +206,7 @@
     npm:
         path: /home/ubuntu/checkBoxCode/server-side/site
 
-#  - name: checking if folder exists
- #   stat: path=/home/vagrant/jobs/checkBox.yml
-  #  register: st
 
-#  - name: checking if folder exists
- #   stat: path=/home/vagrant/jobs/ITrust.yml
-  #  register: sta
-
-#  - name: copy the jobs file to the jobs folder
- #   become: yes
-  #  copy:
-   #   src: jobs/
-    #  dest: /home/vagrant/jobs/
-     # mode: 0777
-  
-#  - name: Update jenkins job
- #   command: .local/bin/jenkins-jobs --conf jobs/jenkins_jobs.ini --user jenkins --password "{{jenkins_password}}" update jobs/
-  #  args:
-   #   chdir: /home/vagrant
-
- # - name: change port
-  #  become: true
-   # lineinfile:
-    #  path: /etc/default/jenkins
-     # regexp: '^HTTP_PORT='
-      #line: 'HTTP_PORT=8081'
-
- # - name: restart jenkins service, in all cases
-  #  become: yes
-   # systemd:
-    #  name: jenkins
-     # state: restarted 
-
- # - name: Wait for jenkins to come up
-  #  uri:
-   #    url: "http:/{{CURL}}login?from=%2F"
-    #   status_code: 200
-   # register: result
-   # until: result.status == 200
-    #retries: 20
-   # delay: 5
-
-  #- name: create bare folder "jenkins-checkbox" 
-    #file:
-  #    path: /home/vagrant/deploy/jenkins-checkbox.git
-   #   state: directory
-    #  mode: 0777
-  
- # - name: create bare folder "jenkins-itrust" 
-  #  file:
-   #   path: /home/vagrant/deploy/jenkins-itrust.git
-    #  state: directory
-     # mode: 0777
-
- # - name: git bare initialize for checkbox
-  #  become: true
-   # command: git init --bare
-   # args:
-    #  chdir: /home/vagrant/deploy/jenkins-checkbox.git
-
- # - name: git bare initialize for itrust
-  #  become: true
-   # command: git init --bare
-    #args:
-     # chdir: /home/vagrant/deploy/jenkins-itrust.git
-
- # - name: Add remote url for checkbox
-  #  template:
-   #   src: config-checkbox
-    #  remote_src: no
-     # dest: /home/vagrant/checkBoxCode/.git/config
-      #owner: vagrant
-     # group: vagrant
-     # mode: 0664
-          
- # - name: copy the post-receive hook remote repository checkBoxCode
-  #  become: yes
-   # template:
-    #  src: post-receive-checkbox
-     # dest: /home/vagrant/deploy/jenkins-checkbox.git/hooks/post-receive
-      #owner: root
-     # group: root
-      #mode: 0777
 
   - name: Enabling access to Jenkins without password 
     lineinfile: 

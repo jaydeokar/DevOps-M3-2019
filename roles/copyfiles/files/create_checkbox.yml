@@ -42,10 +42,13 @@
               to_port: 8080
               cidr_ip: 0.0.0.0/0
             - proto: tcp
+              from_port: 3000
+              to_port: 3000
+              cidr_ip: 0.0.0.0/0           
+            - proto: tcp
               from_port: 3002
               to_port: 3002
               cidr_ip: 0.0.0.0/0
-
             - proto: tcp
               from_port: 8081
               to_port: 8081
@@ -69,22 +72,9 @@
       - debug:
            msg: "{{ ec2.instances }}"
 
-    #  - name: Add the newly created EC2 instance(s) to the local host group (located inside the directory)
-    #    local_action: lineinfile 
-    #                  dest="./hosts" 
-    #                  regexp= '^(.*)CURL(.*)$' 
-    #                  line=  {{ item.public_ip }}" 
-
-    #    with_items: "{{ ec2.instances }}"
       - name: Add all instance public IPs to host group
         add_host: hostname={{ item.public_ip }} groups=checkbox
         with_items: "{{ ec2.instances }}"
-      # - name: replace line
-      #   lineinfile:
-      #           dest: /vagrant/variables.yml 
-      #           regexp: '^(.*)CURL: (.*)$' 
-      #           line: 'CURL: "{{ ec2.instances.public_ip }}:8081/" '
-      #           backrefs: yes
 
       - name: Wait for SSH to come up
         local_action: wait_for 
@@ -99,17 +89,4 @@
         args:
           tags:
             Name: checkbox
-  # - name: clone itrust
-  #   sudo: no
-  #   hosts: ec2hosts
-  #   remote_user: ubuntu
-  #   vars:
-  #       ansible_ssh_private_key_file: /vagrant/mile3.pem
-  #       ansible_python_interpreter: /usr/bin/python3
-  #   connection: ssh
-  #   tasks:
-  #     - name: git clone itrust
-  #       #`sudo: yes
-  #       #hosts: webserver
-  #       git: repo=https://github.com/gautamworah96/iTrust dest=/home/ubuntu/iTrust2-v4
-  #       ignore_errors: yes
+  

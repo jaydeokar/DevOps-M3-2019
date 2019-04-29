@@ -1,7 +1,6 @@
 ---
     - name: upgrade and update
       apt:
-#        upgrade: yes
         update_cache: yes
         cache_valid_time: 86400
 
@@ -50,14 +49,12 @@
     - name: Ansible template creation
       template:
          src: /vagrant/roles/sql/template/root.cnf.j2
-         #src: "{{ ansible_facts.env['PWD'] }}/root1.cnf.j2"
          dest: /root/.my.cnf
 
     - name: remove mysql password
       command: mysqladmin --user=root password ""
 
-#    - name: comment bind address line
- #     command: sed -i '/127.0.0.1/s/^/#/g' /etc/mysql/mysql.conf.d/mysqld.cnf          
+     
     - name: command restart
       command: sudo service mysql restart
 

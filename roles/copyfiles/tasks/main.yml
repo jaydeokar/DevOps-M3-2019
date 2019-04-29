@@ -11,7 +11,7 @@
     copy:
         src: "/vagrant/{{ pem_file_name }}"
         dest: "/home/ubuntu/{{ pem_file_name }}"
-  - name: change permission of mile3.pem file
+  - name: change permission of pem file
     file: 
           path: "/home/ubuntu/{{ pem_file_name }}"
           mode: 0400
@@ -27,20 +27,12 @@
     copy:
         src: create_checkbox.yml
         dest: /home/ubuntu/create_checkbox.yml
-  # - name: copy DevOps.pem file
-  #   copy:
-  #       src: "/vagrant/{{ pem_file_name }}"
-  #       dest: "/home/ubuntu/{{ pem_file_name }}"
-  # - name: change permission of DevOps.pem file
-  #   file: 
-  #         path: "/home/ubuntu/{{ pem_file_name }}"
-  #         mode: 0400
   - name: create .aws folder
     file:
        path: /home/ubuntu/.aws
        state: directory
 
-    #command: mkdir .aws
+    
   - name: copy credentials template
     copy:   
        src: credentials

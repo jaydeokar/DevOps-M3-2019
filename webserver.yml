@@ -8,10 +8,10 @@
     # Necessary Variables for creating/provisioning the EC2 Instance
     vars:
       instance_type: t2.medium
-      security_group: ansible # Change the security group name here
-      image: "{{ image_id }}" #ami-08692d171e3cf02d6 #ami-005bdb005fb00e791 # This is an AMI i created myself
-      keypair: "{{ pem_file }}" # This is one of my keys that i already have in AWS
-      region: "{{ region }}" # Change the Region
+      security_group: ansible 
+      image: "{{ image_id }}" 
+      keypair: "{{ pem_file }}" 
+      region: "{{ region }}" 
       count: 1
 
     # Task that will be used to Launch/Create an EC2 Instance

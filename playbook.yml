@@ -1,0 +1,12 @@
+---
+
+-  import_playbook: webserver.yml
+-  import_playbook: jenkins.yml
+-  import_playbook: sqlinstall.yml
+-  import_playbook: javainstall.yml
+-  import_playbook: mavenins.yml
+-  import_playbook: itrust.yml
+-  import_playbook: copyfiles.yml
+-  import_playbook: ansibleins.yml
+-  import_playbook: git.yml
+

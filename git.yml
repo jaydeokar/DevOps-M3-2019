@@ -1,17 +1,5 @@
 ---
- # - name: clone itrust
-  #  sudo: no
-   # hosts: webserver
-    #remote_user: ec2_user
-  #  connection: ssh
-   # tasks:
-    #  - name: git clone itrust
-    #    sudo: yes
-     #   #hosts: webserver
-      #  git: repo=https://github.com/gautamworah96/iTrust dest=/home/ubuntu/iTrust2-v4
-       # ignore_errors: yes
-
-
+ 
 
 
   - name: clone featureflag and deploycheckbox
@@ -24,8 +12,7 @@
     connection: ssh
     tasks:
       - name: git clone featureflag
-        #`sudo: yes
-        #hosts: webserver
+        
         git: repo=https://github.com/jaydeokar/featureflag dest=/home/ubuntu/featureflag
         ignore_errors: yes
       - name: git clone checkbox prod code

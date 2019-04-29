@@ -15,18 +15,7 @@
       template:
          src: /vagrant/roles/itrust/template/email.properties.template
          dest: /home/ubuntu/iTrust2-v4/iTrust2/src/main/java/email.properties
- #        remote_src: yes
-    # - name: update mysql root password for all root accounts
-    #   sudo: yes
-    #   mysql_user:
-    #     name: "{{mysql_user}}"
-    #     host: all
-    #     password: ""
-    #     login_user: "{{mysql_user}}"
-    #     login_password: ""
-    #     check_implicit_admin: yes
-    #     priv: "*.*:ALL,GRANT"
-       
+ 
 
     - name: Add remote url for itrust
       template:
@@ -42,7 +31,6 @@
       template:
         src: post-receive-iTrust
         dest: /home/ubuntu/deploy/jenkins-itrust.git/hooks/post-receive
-#        remote_src: yes
         owner: root
         group: root
         mode: 0777

@@ -1,7 +1,6 @@
 ---
   - name: copy ec2basic
     hosts: ec2hosts
-    #hosts: ec2hosts
     remote_user: ubuntu
     vars_files: variables.yml
     vars:

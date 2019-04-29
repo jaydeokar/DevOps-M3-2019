@@ -16,20 +16,18 @@
     apt: 
        name:  software-properties-common
   - name: add repo
-    command: sudo apt-add-repository --yes --update ppa:ansible/ansible
+    become: yes
+    command: apt-add-repository --yes --update ppa:ansible/ansible
   - name: ansible ins
     become: yes
     apt:
        name: ansible
   - name: insatll boto
-    command: sudo pip install boto
+    become: yes
+    command: pip install boto
   - name: insatll boto3
-    command: sudo pip install boto3
-    # pip:
-    #    name: ['boto','boto3']
-    # pip: "{{ item }}"
-    # with_items: 
-    #     - boto
-    #     - boto3
+    become: yes
+    command: pip install boto3
+   
          
        

@@ -58,7 +58,7 @@
   - name: Integrate cloudwatch and grafana
     become: true
     copy:   
-        src: credentials
+        src: /home/ubuntu/roles/copyfiles/files/credentials
         dest: /usr/share/grafana/.credentials
         mode: 0644
         

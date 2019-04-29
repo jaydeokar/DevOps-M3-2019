@@ -1,15 +1,15 @@
 ---
 jenkins_password: "userPasswordDemo"
-MONGO_PASSWORD: "123456"
-MAIL_USER: "csc519s19gworah@gmail.com"
-MAIL_PASSWORD: "abcabc"
+MONGO_PASSWORD: "<password>"
+MAIL_USER: "<user-name>@gmail.com"
+MAIL_PASSWORD: "<mail-password>"
 APP_PORT: 3002
 MONGO_IP: 127.0.0.1
 MONGO_USER: "admin_mongo_user"
 MAIL_SMTP: "smtp.gmail.com"
 REPO: "https://github.com/gautamworah96/checkbox.io.git"
 URL: "/192.168.33.100:8080/"
-CURL: "3.85.110.117:8081/"
+CURL: "3.85.110.117:8081"
 jenkins_password: userPasswordDemo
 jenkins_plugins:
           - token-macro
@@ -64,13 +64,13 @@ mongo_admin_password: "123456"
 mongo_checkbox_user: "admin_mongo_user"
 mongo_checkbox_user: "admin_mongo_user"
 mongo_checkbox_password: "123456"
-email_username: "csc519d"
+email_username: "<email-username>"
 email_password: ""
 checkbox_repo: "{{ REPO }}"
 itrust_repo: "https://github.com/jaydeokar/itrustnew.git"
 #AWS_ACCESS_KEY_ID: ""
 #AWS_SECRET_KEY: ""
-pem_file_name: "devops2.pem"
-pem_file: "devops2"
+pem_file_name: ""
+pem_file: ""
 region: "us-east-1"
 image_id: "ami-0565af6e282977273"
