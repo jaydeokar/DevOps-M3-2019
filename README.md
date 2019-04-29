@@ -87,7 +87,7 @@ CloudWatch is a monitoring and management PaaS offered by AWS.  Here, we have us
 
 3) **StatusCheckedFailed_Instance:**   As defined by AWS, the value is 0 if the instance is passing the status checks and 1 if the status checks fails. During a status check, the health of the server is continuously polled by sending an ARP request. This metric indicates whether the server is online or offline.
 
-![image](https://github.ncsu.edu/bdwived/Devops-Milestone3/blob/master/first.jpg)
+![image](https://github.ncsu.edu/bdwived/Devops-Milestone3/blob/master/first.png)
 
 
  
