@@ -78,7 +78,7 @@ As you can see from the screenshot above, if we delete one of the pods using 'ku
  
  **Grafana**
  
-Grafana is a Visualization and a monitoring tool used to plot various metrics on virtual machines running remotely on a data centre or Cloud. For this special milestone, we have used the opensource free version of Grafana to plot dashboards, visualize metrics that are being received from CloudWatch. The reason for using Cloudwatch is, it can monitor all the instances in any VPCs and Grafana is used to plot a unified dashboard of metrics from every application server and configuration server deployed and running. The Grafana application is installed and configured on the port 3000. The dashboard can be viewed at http://<public-ip of grafana server>:3000.
+Grafana is a Visualization and a monitoring tool used to plot various metrics on virtual machines running remotely on a data centre or Cloud. For this special milestone, we have used the opensource free version of Grafana to plot dashboards, visualize metrics that are being received from CloudWatch. The reason for using Cloudwatch is, it can monitor all the instances in any VPCs and Grafana is used to plot a unified dashboard of metrics from every application server and configuration server deployed and running. The Grafana application is installed and configured on the port 3000. The dashboard can be viewed at http://(public-ip of grafana server):3000.
 
 **AWS CloudWatch**
 
@@ -96,9 +96,7 @@ CloudWatch is a monitoring and management PaaS offered by AWS.  Here, we have us
 
 
 **SCREENCAST**
-[Production deployment,Feature flag, Infrastructure upgrade](https://drive.google.com/file/d/1blyOABnuft4xocjMAcibuGl6C33LsHxc/view?usp=sharing)
-
-[Special Milestone](https://drive.google.com/file/d/1laRfjq6c6isHA3xrfOg_AD20LSHT3bES/view?usp=sharing)
+[Production deployment,Feature flag, Infrastructure upgrade,Special Milestone](https://drive.google.com/open?id=1PrB6dmVhi1I46NRQj91lWAp_F_rolwWx)
 
 
 
