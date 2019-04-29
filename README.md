@@ -15,7 +15,8 @@ Bhavya Dwivedi (bdwived), Gautam Worah (gworah), Jay Deokar (jsdeokar), Suraj Ku
 Following is the architecture that we have created :
 We have one configuration server imlemented on Vagrant, Jenkins server running on an EC2 instance, Itrust Production server, Checkbox Production server deployed on an EC2 server. Also, for Infrastructure upgrade we have one Kubernetes cluster running on an EC2 instance with 2 slaves and one master.
 
-**[DIAGRAM]**
+![image](https://github.ncsu.edu/bdwived/Devops-Milestone3/blob/master/second.jpg)
+
 
 **Deployment:** Deploy iTrust and checkbox.io to a production environment. Create a git hook on your jenkins server that will trigger a deployment when doing a git push to "production". The deployment needs to occur on actual remote machine (e.g. AWS, droplet, VCL), and not a local VM. The deployment should provision and configure the production environment using scripts + ansible.
 
@@ -56,7 +57,7 @@ Extract a new microservice for rendering markdown => html in checkbox.io. Deploy
 As shown above in the architecture diagram, we have created a Kubernetes cluster with 3 microservice instances (pods) each running 'markdown' service of Checkbox. The service availability would be ensured by the Kubernetes cluster. 
 You can use the following commands to check the pods: 
 kubectl get pods
-**[SCREENSHOT]**
+![image](https://github.ncsu.edu/bdwived/Devops-Milestone3/blob/master/third.png)
 
 As you can see from the screenshot above, if we delete one of the pods using 'kubectl delete pod <pod name>', the cluster would ensure service availability by terminating the specified pod and creating another one on its place seamlessly. 
  
@@ -85,6 +86,12 @@ CloudWatch is a monitoring and management PaaS offered by AWS.  Here, we have us
 2) **NetworkOut:** Average network egress traffic on a server. It is measured in MB/s. It signifies the network load on the server and gives us an understanding on how much traffic is flowing  out of the server. 
 
 3) **StatusCheckedFailed_Instance:**   As defined by AWS, the value is 0 if the instance is passing the status checks and 1 if the status checks fails. During a status check, the health of the server is continuously polled by sending an ARP request. This metric indicates whether the server is online or offline.
+
+![image](https://github.ncsu.edu/bdwived/Devops-Milestone3/blob/master/first.png)
+
+
+**SCREENCAST**
+[Production deployment,Feature flag, Infrastructure upgrade](https://drive.google.com/file/d/1blyOABnuft4xocjMAcibuGl6C33LsHxc/view?usp=sharing)
 
 
 
